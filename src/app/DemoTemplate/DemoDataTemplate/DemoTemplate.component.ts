@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { Student } from "app/student/student.model";
-import { Employee } from "app/student/employee.model";
+import { Student } from "../Student.model";
+import { Employee } from "../Employee.model";
 
 @Component({
-  selector: 'app-student-detail',
-  templateUrl: './student-detail.component.html',
-  styleUrls: ['./student-detail.component.css']
+  selector: 'app-DemoTemplate-detail',
+  templateUrl: './DemoTemplate.component.html',
+  styleUrls: ['./DemoTemplate.component.css']
 })
-export class StudentDetailComponent implements OnInit {
+export class DemoTemplateComponent implements OnInit {
   GenData;
   GenOption;
 

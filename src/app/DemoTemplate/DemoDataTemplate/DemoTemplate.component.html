@@ -5,7 +5,7 @@
     </div>
     <div class="btn-group">
       <button class="btn btn-success" style="margin: 17px" type="button" (click)="OnChange()">ChangeData</button>
-      <app-dyn-dt [DataSource]="GenData" [Option]="GenOption" [sort]="sorting" ></app-dyn-dt>
+      <app-DataTable [dataSource]="GenData" [option]="GenOption" [sort]="sorting" ></app-DataTable>
     </div>
   </div>
 </div>

@@ -1,9 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-    name: 'shorten'
+    name: 'shortenValue'
 })
-export class ShortenPipe implements PipeTransform {
+export class ShortenColumnVal implements PipeTransform {
     transform(value: any, limit: number) {
         if (typeof value === 'string') {
             if (value.length > limit) {

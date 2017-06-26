@@ -4,7 +4,7 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'filter',
   pure: false
 })
-export class FilterPipe implements PipeTransform {
+export class FillterColumns implements PipeTransform {
   transform(value: any, filterString: string, propName: string): any {
     if (value.length === 0 || filterString === '') {
       return value;

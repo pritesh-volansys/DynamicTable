@@ -1,20 +1,24 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DynDTComponent } from './dyn-dt.component';
+import { DynDataTableComponent } from "../DynDataTable/DynDataTable";
+
+
+
+
 
 describe('DynDTComponent', () => {
-  let component: DynDTComponent;
-  let fixture: ComponentFixture<DynDTComponent>;
+  let component: DynDataTableComponent;
+  let fixture: ComponentFixture<DynDataTableComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DynDTComponent ]
+      declarations: [ DynDataTableComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DynDTComponent);
+    fixture = TestBed.createComponent(DynDataTableComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

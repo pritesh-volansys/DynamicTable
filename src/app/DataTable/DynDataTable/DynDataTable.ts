@@ -1,36 +1,31 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Subscription } from "rxjs/Subscription";
 
-import { ColumnSetting } from "app/dyn-data-table/dyn-column-data.model";
+import { ColumnConfig } from "../ColumnConfig";
+
+
 
 @Component({
-  selector: 'app-dyn-dt',
-  templateUrl: './dyn-dt.component.html',
-  styleUrls: ['./dyn-dt.component.css'],
+  selector: 'app-DataTable',
+  templateUrl: './DynDataTable.html',
+  styleUrls: ['./DynDataTable.css'],
 })
-export class DynDTComponent implements OnInit {
-  @Input() DataSource: any[];
-  @Input() Option: any[];
+export class DynDataTableComponent implements OnInit {
+  @Input() dataSource: any[];
+  @Input() option: any[];
   @Input() sort: any;
   Filtterby = "";
   field = ""; 
   
-
-  title = 'app';
-  public DynDataSource = [];
-  public filteredList = [];
-  public ColumnSets: ColumnSetting[];
-  public keys: string[];
-  private subscription: Subscription;
-
+  public ColumnSets: ColumnConfig[];
 
   constructor() { }
 
   ngOnInit() {
-    this.Option;
+    this.option;
   }
 
-  onChangeFiltter(event , field){ 
+  onChangeFiltterValue(event , field){ 
     this.Filtterby = event.target.value;
     this.field = field;
   }
@@ -39,7 +34,7 @@ export class DynDTComponent implements OnInit {
   //   return columnName == this.sort.column ? 'sort-' + this.sort.descending : false;
   // }
 
-  changeSorting(columnName): void{
+  onChangeSortingType(columnName): void{
     var sort = this.sort;
     if (sort.column == columnName) {
       sort.descending = !sort.descending;
@@ -49,7 +44,7 @@ export class DynDTComponent implements OnInit {
     }
   }
   
-  convertSorting(): string{
+  convertSortingType(): string{
     return this.sort.descending ? '-' + this.sort.column : this.sort.column;
   }
 

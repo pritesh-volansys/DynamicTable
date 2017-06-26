@@ -1,4 +1,4 @@
-export class ColumnSetting {
+export class ColumnConfig {
   public field: string;
   public title: string;
   public width: number;

@@ -11,8 +11,17 @@ export class FilterPipe implements PipeTransform {
     }
     const resultArray = [];
     for (const item of value) {
-      if (item[propName].toUpperCase().startsWith(filterString.toUpperCase())) {
-        resultArray.push(item);
+      //Fillter with string
+      if (typeof item[propName] === 'string') {
+        if (item[propName].toUpperCase().startsWith(filterString.toUpperCase())) {
+          resultArray.push(item);
+        }
+      }
+      //Fillter with number
+      else if(typeof item[propName] === 'number'){
+        if (item[propName] == filterString) {
+          resultArray.push(item);
+        }
       }
     }
     return resultArray;

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { DynDataTableService } from "app/dyn-data-table/dynDT.service";
 
 @Component({
   selector: 'app-root',

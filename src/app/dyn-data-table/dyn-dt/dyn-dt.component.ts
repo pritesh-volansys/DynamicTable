@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { DynDataTableService } from "app/dyn-data-table/dynDT.service";
-import { ColumnSetting } from "app/dyn-data-table/dyn-column-data.model";
 import { Subscription } from "rxjs/Subscription";
+
+import { ColumnSetting } from "app/dyn-data-table/dyn-column-data.model";
 
 @Component({
   selector: 'app-dyn-dt',
@@ -12,7 +12,8 @@ export class DynDTComponent implements OnInit {
   @Input() DataSource: any[];
   @Input() Option: any[];
   @Input() sort: any;
-  Filtterby = ""; 
+  Filtterby = "";
+  field = ""; 
   
 
   title = 'app';
@@ -23,17 +24,15 @@ export class DynDTComponent implements OnInit {
   private subscription: Subscription;
 
 
-  constructor(private dynDTServive: DynDataTableService) { }
+  constructor() { }
 
   ngOnInit() {
     this.Option;
-    this.subscription = this.dynDTServive.ChangeContain
-      .subscribe(
-      (str: string) => {
-        this.ColumnSets = this.dynDTServive.GetHeaderDT();
-        this.DynDataSource = this.filteredList = this.dynDTServive.getDataSources();
-      }
-      );
+  }
+
+  onChangeFiltter(event , field){ 
+    this.Filtterby = event.target.value;
+    this.field = field;
   }
 
   // selectedClass(columnName): string{

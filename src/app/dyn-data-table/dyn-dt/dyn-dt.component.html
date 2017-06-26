@@ -3,20 +3,19 @@
 <div class="container">
   <div class="row">
     <div class="col-xs-12">
-      <div class="well well-sm" style="padding:20px">
-        <!--<input type="text" [(ngModel)]="Filtterby" [placeholder]="column.title" />-->
+      <div style="padding:20px">
         <table class="table  table-hover data-table sort display">
           <thead>
-            <th [ngStyle]="[{width: column.width}]" (click)="changeSorting(column.field)"  [style.display]="column.hidden ? 'none' : ''" *ngFor="let column of Option">
-              <input type="text" [(ngModel)]="Filtterby" [placeholder]="column.field" />
-              <hr>
-              {{column.title | uppercase}}
+            <th [ngStyle]="[{width: column.width}]" [style.display]="column.hidden ? 'none' : ''" *ngFor="let column of Option">
+              <input class="form-control" type="text" *ngIf="column.filterable" (input)="onChangeFiltter($event,column.field)" [placeholder]="column.field" />
+              <br><br>
+              <p (click)="changeSorting(column.field)">{{column.title | uppercase}}</p>
             </th>
           </thead>
           <tbody>
-            <tr *ngFor="let record of DataSource | orderBy : convertSorting() | filter:Filtterby:'name'">
+            <tr *ngFor="let record of DataSource | orderBy : convertSorting() | filter:Filtterby:field">
               <td *ngFor="let cl of Option" [style.display]="cl.hidden ? 'none' : ''">
-                <p>{{record[cl.field]}}</p>
+                <p>{{record[cl.field] | shorten:15}}</p>
               </td>
             </tr>            
           </tbody>

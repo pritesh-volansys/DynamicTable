@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { DynDataTableService } from "app/dyn-data-table/dynDT.service";
 import { Student } from "app/student/student.model";
-import { Employee } from "app/student/Employee.model";
+import { Employee } from "app/student/employee.model";
 
 @Component({
   selector: 'app-student-detail',
@@ -16,13 +15,13 @@ export class StudentDetailComponent implements OnInit {
   HeaderDS = [];
   IsStudent = false;
   sorting: any = {
-    column: '', //to match the variable of one of the columns
+    column: '',
     descending: false
   };
 
   empDS: Employee[];
   empHeaderDS = [];
-  constructor(private dynDTServive: DynDataTableService) { }
+  constructor() { }
 
   ngOnInit() {
     this.InitDataSource();
@@ -30,16 +29,12 @@ export class StudentDetailComponent implements OnInit {
 
   OnChange() {
     if (this.IsStudent == false) {
-      // this.dynDTServive.SetDataSources(this.studentDS);
-      // this.dynDTServive.SetHeaderDT(this.HeaderDS);
       this.GenData = this.studentDS;
       this.GenOption = this.HeaderDS;
       this.IsStudent = true;
     } else {
        this.GenData = this.empDS;
       this.GenOption = this.empHeaderDS;
-      // this.dynDTServive.SetDataSources(this.empDS);
-      // this.dynDTServive.SetHeaderDT(this.empHeaderDS);
       this.IsStudent = false;
     }
   }
@@ -48,8 +43,6 @@ export class StudentDetailComponent implements OnInit {
     this.FirstSetData();
     this.GenData = this.empDS;
     this.GenOption = this.empHeaderDS;
-    // this.dynDTServive.SetDataSources(this.empDS);
-    // this.dynDTServive.SetHeaderDT(this.empHeaderDS);
   }
 
   FirstSetData() {
@@ -66,10 +59,10 @@ export class StudentDetailComponent implements OnInit {
 
     this.empHeaderDS = [
       { field: 'empNo', title: 'Emp ID', width: '12', filterable: true, hidden: true },
-      { field: 'name', title: 'Name', width: '2', filterable: true, hidden: false },
-      { field: 'education', title: 'Education', width: '2' , hidden: false  },
-      { field: 'year', title: 'Year', width: '10' , hidden: false },
-      { field: 'institute', title: 'Institute', width: '10' , hidden: false }
+      { field: 'name', title: 'Name', width: '12', filterable: true, hidden: false },
+      { field: 'education', title: 'Education', width: '22',filterable: true, hidden: false  },
+      { field: 'year', title: 'Year', width: '32' , hidden: false , filterable: true,},
+      { field: 'institute', title: 'Institute', width: '14' , hidden: false , filterable: true,  }
     ];
 
     this.studentDS = [

@@ -1,0 +1,28 @@
+<br> <br> <br>
+
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="well well-sm" style="padding:20px">
+        <!--<input type="text" [(ngModel)]="Filtterby" [placeholder]="column.title" />-->
+        <table class="table  table-hover data-table sort display">
+          <thead>
+            <th [ngStyle]="[{width: column.width}]" (click)="changeSorting(column.field)"  [style.display]="column.hidden ? 'none' : ''" *ngFor="let column of Option">
+              <input type="text" [(ngModel)]="Filtterby" [placeholder]="column.field" />
+              <hr>
+              {{column.title | uppercase}}
+            </th>
+          </thead>
+          <tbody>
+            <tr *ngFor="let record of DataSource | orderBy : convertSorting() | filter:Filtterby:'name'">
+              <td *ngFor="let cl of Option" [style.display]="cl.hidden ? 'none' : ''">
+                <p>{{record[cl.field]}}</p>
+              </td>
+            </tr>            
+          </tbody>
+        </table>
+      </div>
+      <!-- Ends Controller -->
+    </div>
+  </div>
+</div>

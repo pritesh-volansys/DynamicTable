@@ -1,9 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Subscription } from "rxjs/Subscription";
+import { Response } from '@angular/http';
 
 import { ColumnConfig } from "../ColumnConfig";
 import { DataStorageService } from "../DataStorage.service";
-import { Response } from '@angular/http';
+
 
 @Component({
   selector: 'app-DataTable',

@@ -2,7 +2,7 @@
 
 This project use for make custom datatable with shared datasource and column configuration.
 
-## Column component setting
+## Column setting
 
 This column setting use for default setting of created table. Please check below sample column setting for a custom table.Column setting can handle width, filter, and hide the individual column.
 

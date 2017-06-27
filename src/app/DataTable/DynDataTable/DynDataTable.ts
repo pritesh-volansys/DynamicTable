@@ -8,7 +8,6 @@ import { Response } from '@angular/http';
 @Component({
   selector: 'app-DataTable',
   templateUrl: './DynDataTable.html',
-  styleUrls: ['./DynDataTable.css'],
 })
 export class DynDataTableComponent implements OnInit {
   @Input() dataSource: any[];

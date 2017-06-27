@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Student } from "../Student.model";
-import { Employee } from "../Employee.model";
+import { Student } from "./Student.model";
+import { Employee } from "./Employee.model";
+
 
 @Component({
-  selector: 'app-DemoTemplate-detail',
-  templateUrl: './DemoTemplate.component.html',
-  styleUrls: ['./DemoTemplate.component.css']
+  selector: 'app-DemoTemplate',
+  templateUrl: 'DemoTemplate.component.html',  
 })
 export class DemoTemplateComponent implements OnInit {
   generalData;
@@ -94,3 +94,6 @@ export class DemoTemplateComponent implements OnInit {
 
 
 }
+
+
+

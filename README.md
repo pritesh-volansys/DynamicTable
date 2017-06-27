@@ -27,7 +27,7 @@ In UI need to share data source, datalink, option for Custom DataTable. Please c
 
 ## UI for DataTable
 
-![ScreenShot](src/test)
+![ScreenShot](src/test.png)
 
 ## Deployment
 

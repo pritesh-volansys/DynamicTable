@@ -1,28 +1,39 @@
-# StudentDetails
+# Custom DataTable
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.1.3.
+This project use for make custom datatable with shared datasource and column configuration.
 
-## Development server
+## Column component setting
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+This column setting use for default setting of created table. Please check below sample column setting for a custom table.Column setting can handle width, filter, and hide the individual column.
 
-## Code scaffolding
+```
+    this.linkColumnConfig = [
+      { field: 'ProductName', title: 'Product Name', width: '12px', filterable: true },
+      { field: 'UnitPrice', title: 'Unit Price', width: '22px', filterable: true },
+      { field: 'UnitsInStock', title: 'Units In Stock', width: '22px', filterable: true },
+    ]
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|module`.
+```
 
-## Build
+## Column UI setting
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+In UI need to share data source, datalink, option for Custom DataTable. Please check below shared attribut with proper assign value. Data source should be "any[]" type.
 
-## Running unit tests
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+<app-DataTable [option]="generalOption" [dataSource]="generalData" [dataLink]="'https://ethereal-honor-168405.firebaseio.com/array.json'" [sort]="sorting" ></app-DataTable>
 
-## Running end-to-end tests
+```
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-Before running the tests make sure you are serving the app via `ng serve`.
+## UI for DataTable
 
-## Further help
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+```
+
+Image
+
+```
+
+## Deployment
+
+Add additional notes about how to deploy this on a live system

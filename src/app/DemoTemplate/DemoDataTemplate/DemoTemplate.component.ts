@@ -8,12 +8,12 @@ import { Employee } from "../Employee.model";
   styleUrls: ['./DemoTemplate.component.css']
 })
 export class DemoTemplateComponent implements OnInit {
-  GenData;
-  GenOption;
+  generalData;
+  generalOption;
 
   studentDS: Student[];
-  HeaderDS = [];
-  IsStudent = false;
+  studentColumnDS = [];
+  isStudent = false;
   sorting: any = {
     column: '',
     descending: false
@@ -21,31 +21,32 @@ export class DemoTemplateComponent implements OnInit {
 
   empDS: Employee[];
   empHeaderDS = [];
+  linkColumnConfig = [];
   constructor() { }
 
   ngOnInit() {
-    this.InitDataSource();
+    this.initDataSource();
   }
 
-  OnChange() {
-    if (this.IsStudent == false) {
-      this.GenData = this.studentDS;
-      this.GenOption = this.HeaderDS;
-      this.IsStudent = true;
+  onChangeDataSource() {
+    if (this.isStudent == false) {
+      this.generalData = this.studentDS;
+      this.generalOption = this.studentColumnDS;
+      this.isStudent = true;
     } else {
-       this.GenData = this.empDS;
-      this.GenOption = this.empHeaderDS;
-      this.IsStudent = false;
+       this.generalData = this.empDS;
+      this.generalOption = this.empHeaderDS;
+      this.isStudent = false;
     }
   }
 
-  InitDataSource() {
-    this.FirstSetData();
-    this.GenData = this.empDS;
-    this.GenOption = this.empHeaderDS;
+  initDataSource() {
+    this.loadDS();
+    this.generalOption = this.linkColumnConfig;
   }
+  
 
-  FirstSetData() {
+  loadDS() {
     this.empDS = [
       new Employee(1, 'Jone', 'BE CSE', 2014, 'AIT'),
       new Employee(2, 'David', 'BTech IT', 2014, 'VIT'),
@@ -76,12 +77,18 @@ export class DemoTemplateComponent implements OnInit {
       new Student(8, 'Mahi', 'Female', '14/7/1998'),
     ];
 
-    this.HeaderDS = [
+    this.studentColumnDS = [
       { field: 'rollNumber', title: 'RollNumber', width: '2px', filterable: true },
       { field: 'name', title: 'Name', width: '2px', filterable: true },
       { field: 'sex', title: 'Sex', width: '2px' },
       { field: 'dOT', title: 'DOT', width: '10px' }
     ];
+
+    this.linkColumnConfig = [
+      { field: 'ProductName', title: 'Product Name', width: '12px', filterable: true },
+      { field: 'UnitPrice', title: 'Unit Price', width: '22px', filterable: true },
+      { field: 'UnitsInStock', title: 'Units In Stock', width: '22px', filterable: true },
+    ]
     
   }
 

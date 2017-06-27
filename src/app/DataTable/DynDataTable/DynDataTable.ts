@@ -2,8 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Subscription } from "rxjs/Subscription";
 
 import { ColumnConfig } from "../ColumnConfig";
-
-
+import { DataStorageService } from "../DataStorage.service";
+import { Response } from '@angular/http';
 
 @Component({
   selector: 'app-DataTable',
@@ -14,25 +14,25 @@ export class DynDataTableComponent implements OnInit {
   @Input() dataSource: any[];
   @Input() option: any[];
   @Input() sort: any;
-  Filtterby = "";
-  field = ""; 
-  
-  public ColumnSets: ColumnConfig[];
+  @Input() dataLink: string;
+  filtterby = "";
+  fieldName = ""; 
 
-  constructor() { }
+  constructor(private dataStorageService: DataStorageService) { }
 
   ngOnInit() {
+    this.dataStorageService.getLinkData(this.dataLink)
+      .subscribe(
+        (servers: any[]) => this.dataSource = servers,
+        (error) => console.log(error)
+      );    
     this.option;
   }
 
   onChangeFiltterValue(event , field){ 
-    this.Filtterby = event.target.value;
-    this.field = field;
+    this.filtterby = event.target.value;
+    this.fieldName = field;
   }
-
-  // selectedClass(columnName): string{
-  //   return columnName == this.sort.column ? 'sort-' + this.sort.descending : false;
-  // }
 
   onChangeSortingType(columnName): void{
     var sort = this.sort;

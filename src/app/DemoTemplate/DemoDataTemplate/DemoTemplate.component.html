@@ -4,8 +4,8 @@
       <h2>Student Details</h2>
     </div>
     <div class="btn-group">
-      <button class="btn btn-success" style="margin: 17px" type="button" (click)="OnChange()">ChangeData</button>
-      <app-DataTable [dataSource]="GenData" [option]="GenOption" [sort]="sorting" ></app-DataTable>
+      <button class="btn btn-success" style="margin: 17px" type="button" (click)="onChangeDataSource()">ChangeData</button>
+      <app-DataTable [option]="generalOption" [dataSource]="generalData" [dataLink]="'https://ethereal-honor-168405.firebaseio.com/array.json'" [sort]="sorting" ></app-DataTable>
     </div>
   </div>
 </div>

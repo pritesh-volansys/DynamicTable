@@ -12,7 +12,7 @@
             </th>
           </thead>
           <tbody>
-            <tr *ngFor="let record of dataSource | orderBy : convertSortingType() | filter:Filtterby:field">
+            <tr *ngFor="let record of dataSource | orderBy : convertSortingType() | filter:filtterby:fieldName">
               <td *ngFor="let cl of option" [style.display]="cl.hidden ? 'none' : ''">
                 <p>{{record[cl.field] | shortenValue:15}}</p>
               </td>

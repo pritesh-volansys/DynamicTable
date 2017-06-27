@@ -10,6 +10,8 @@ import { FillterColumns } from "./DataTable/FillterColumns.pipe";
 import { ShortenColumnVal } from "./DataTable/ShortenColumnVal.pipe";
 import { DynDataTableComponent } from "./DataTable/DynDataTable/DynDataTable";
 import { DemoTemplateComponent } from "./DemoTemplate/DemoDataTemplate/DemoTemplate.component";
+import { DataStorageService } from "./DataTable/DataStorage.service";
+import { HttpModule } from '@angular/http';
 
 
 
@@ -24,9 +26,10 @@ import { DemoTemplateComponent } from "./DemoTemplate/DemoDataTemplate/DemoTempl
   ],
   imports: [
     BrowserModule,
-    FormsModule
+    FormsModule,
+    HttpModule,
   ],
-  providers: [],
+  providers: [DataStorageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { 

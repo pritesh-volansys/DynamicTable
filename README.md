@@ -2,7 +2,7 @@
 
 This project use for make custom datatable with shared datasource and column configuration.
 
-## Column setting
+## Column Configuration
 
 This column setting use for default setting of created table. Please check below sample column setting for a custom table.Column setting can handle width, filter, and hide the individual column.
 
@@ -15,9 +15,9 @@ This column setting use for default setting of created table. Please check below
 
 ```
 
-## Column UI setting
+## Column UI Configuration
 
-In UI need to share data source, datalink, option for Custom DataTable. Please check below shared attribut with proper assign value. Data source should be "any[]" type.
+User need to share data source or datalink with apropriate column config in option attribute for Custom DataTable. Please check below shared attributs list with proper assign value.
 
 ```
 

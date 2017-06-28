@@ -1,10 +1,10 @@
 # Custom DataTable
 
-This project use for make custom datatable with shared datasource and column configuration.
+The UI DataTable is a control for displaying data in a tabular format. It provides many options, such as sorting, filtering, and hide which determine the way data is presented and manipulated. The DataTable can be bound to local or remote data by using the UI DataSource and Option component.
 
 ## Column Configuration
 
-This column setting use for default setting of created table. Please check below sample column setting for a custom table.Column setting can handle width, filter, and hide the individual column.
+This column setting use for default setting of DataTable. Column setting can handle width, filter, and hide the individual column.
 
 ```
     this.linkColumnConfig = [

@@ -15,7 +15,7 @@ This column setting use for default setting of created table. Please check below
 
 ```
 
-## Column UI Configuration
+## UI Configuration
 
 User need to share data source or datalink with apropriate column config in option attribute for Custom DataTable. Please check below shared attributs list with proper assign value.
 

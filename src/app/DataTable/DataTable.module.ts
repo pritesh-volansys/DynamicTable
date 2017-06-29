@@ -4,8 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 
-import { DataStorageService } from "./DataStorage.service";
-import { DynDataTableComponent } from "./DynDataTable/DynDataTable";
+import { HttpCallService } from "./HttpCall.service";
+import { DynDataTableComponent } from "./DynDataTable/DynDataTable.component";
 import { FillterColumns } from "./FillterColumns.pipe";
 import { OrderbyColumns } from "./OrderbyColumns.pipe";
 import { ShortenColumnVal } from "./ShortenColumnVal.pipe";
@@ -22,7 +22,7 @@ import { ShortenColumnVal } from "./ShortenColumnVal.pipe";
         FormsModule,
         HttpModule
     ],
-    providers: [DataStorageService],
+    providers: [HttpCallService],
     exports: [DynDataTableComponent]
 })
 

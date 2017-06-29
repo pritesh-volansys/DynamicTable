@@ -1,15 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { Student } from "./Student.model";
-import { Employee } from "./Employee.model";
+import { Employee } from "app/Model/Employee.model";
+import { Student } from "app/Model/Student.model";
+import { GetFirebaseDetailService } from "./GetFirebaseDetail.service";
 
 
 @Component({
   selector: 'app-DemoTemplate',
-  templateUrl: 'DemoTemplate.component.html',  
+  templateUrl: 'DemoTemplate.html',
 })
 export class DemoTemplateComponent implements OnInit {
   generalData;
   generalOption;
+  token;
 
   studentDS: Student[];
   studentColumnDS = [];
@@ -21,10 +23,12 @@ export class DemoTemplateComponent implements OnInit {
 
   empDS: Employee[];
   empHeaderDS = [];
-  linkColumnConfig = [];
-  constructor() { }
+  SharedlinkColumnConfig = [];
+  constructor(private getFBDetailService: GetFirebaseDetailService) {
+  }
 
   ngOnInit() {
+    this.getFBDetailService.signinUser("test.456@gmail.com", "9429053121");
     this.initDataSource();
   }
 
@@ -34,7 +38,7 @@ export class DemoTemplateComponent implements OnInit {
       this.generalOption = this.studentColumnDS;
       this.isStudent = true;
     } else {
-       this.generalData = this.empDS;
+      this.generalData = this.empDS;
       this.generalOption = this.empHeaderDS;
       this.isStudent = false;
     }
@@ -42,9 +46,19 @@ export class DemoTemplateComponent implements OnInit {
 
   initDataSource() {
     this.loadDS();
-    this.generalOption = this.linkColumnConfig;
+    this.getFBDetailService.changeToken.subscribe(
+      (key: string) => {
+        this.token = key; 
+        this.generalData = {
+          ContentType: "application/json",
+            Url: "https://ethereal-honor-168405.firebaseio.com/array.json?auth=" + this.token
+          //Url: "https://ethereal-honor-168405.firebaseio.com/array.json?auth="
+        };
+        this.generalOption = this.SharedlinkColumnConfig;        
+      }
+    );    
   }
-  
+
 
   loadDS() {
     this.empDS = [
@@ -59,11 +73,11 @@ export class DemoTemplateComponent implements OnInit {
     ];
 
     this.empHeaderDS = [
-      { field: 'empNo', title: 'Emp ID', width: '12', filterable: true, hidden: true },
-      { field: 'name', title: 'Name', width: '12', filterable: true, hidden: false },
-      { field: 'education', title: 'Education', width: '22',filterable: true, hidden: false  },
-      { field: 'year', title: 'Year', width: '32' , hidden: false , filterable: true,},
-      { field: 'institute', title: 'Institute', width: '14' , hidden: false , filterable: true,  }
+      { field: 'empNo', title: 'Emp ID', width: '100px', filterable: true, hidden: true },
+      { field: 'name', title: 'Name', width: '100px', filterable: true, hidden: false },
+      { field: 'education', title: 'Education', width: '100px', filterable: true, hidden: false },
+      { field: 'year', title: 'Year', width: '100px', hidden: false, filterable: true, },
+      { field: 'institute', title: 'Institute', width: '100px', hidden: false, filterable: true, }
     ];
 
     this.studentDS = [
@@ -78,21 +92,18 @@ export class DemoTemplateComponent implements OnInit {
     ];
 
     this.studentColumnDS = [
-      { field: 'rollNumber', title: 'RollNumber', width: '2px', filterable: true },
-      { field: 'name', title: 'Name', width: '2px', filterable: true },
-      { field: 'sex', title: 'Sex', width: '2px' },
-      { field: 'dOT', title: 'DOT', width: '10px' }
+      { field: 'rollNumber', title: 'RollNumber', width: '202px', filterable: true },
+      { field: 'name', title: 'Name', width: '100px', filterable: true },
+      { field: 'sex', title: 'Sex', width: '100px' },
+      { field: 'dOT', title: 'DOT', width: '100px' }
     ];
 
-    this.linkColumnConfig = [
-      { field: 'ProductName', title: 'Product Name', width: '12px', filterable: true },
-      { field: 'UnitPrice', title: 'Unit Price', width: '22px', filterable: true },
+    this.SharedlinkColumnConfig = [
+      { field: 'ProductName', title: 'Product Name', width: '120px', filterable: true },
+      { field: 'UnitPrice', title: 'Unit Price', width: '40px', filterable: true },
       { field: 'UnitsInStock', title: 'Units In Stock', width: '22px', filterable: true },
     ]
-    
   }
-
-
 }
 
 

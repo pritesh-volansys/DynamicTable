@@ -4,9 +4,9 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 
 
-import { DynDataTableComponent } from "./DataTable/DynDataTable/DynDataTable";
 import { DataTableModule } from "./DataTable/DataTable.module";
-import { DemoTemplateComponent } from "./DemoDataTemplate/DemoTemplate.component";
+import { DemoTemplateComponent } from "./DemoTemplate/DemoTemplate.component";
+import { GetFirebaseDetailService } from "./DemoTemplate/GetFirebaseDetail.service";
 
 @NgModule({
   declarations: [
@@ -18,6 +18,7 @@ import { DemoTemplateComponent } from "./DemoDataTemplate/DemoTemplate.component
     FormsModule,
     DataTableModule
   ],
+  providers:[GetFirebaseDetailService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

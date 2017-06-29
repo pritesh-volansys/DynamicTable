@@ -7,11 +7,13 @@ The UI DataTable is a control for displaying data in a tabular format. It provid
 This column setting use for default setting of DataTable. Column setting can handle width, filter, and hide the individual column.
 
 ```
-    this.linkColumnConfig = [
-      { field: 'ProductName', title: 'Product Name', width: '12px', filterable: true },
-      { field: 'UnitPrice', title: 'Unit Price', width: '22px', filterable: true },
-      { field: 'UnitsInStock', title: 'Units In Stock', width: '22px', filterable: true },
-    ]
+    this.empHeaderDS = [
+      { field: 'empNo', title: 'Emp ID', width: '100px', filterable: true, hidden: true },
+      { field: 'name', title: 'Name', width: '100px', filterable: true, hidden: false },
+      { field: 'education', title: 'Education', width: '100px', filterable: true, hidden: false },
+      { field: 'year', title: 'Year', width: '100px', hidden: false, filterable: true, },
+      { field: 'institute', title: 'Institute', width: '100px', hidden: false, filterable: true, }
+    ];
 
 ```
 
@@ -21,9 +23,39 @@ User need to share data source or datalink with apropriate column config in opti
 
 ```
 
-<app-DataTable [option]="generalOption" [dataSource]="generalData" [dataLink]="'https://ethereal-honor-168405.firebaseio.com/array.json'" [sort]="sorting" ></app-DataTable>
+<app-DataTable [option]="generalOption" [dataSource]="generalData" [sort]="sorting" ></app-DataTable>
 
 ```
+
+
+### Type of share datasource to DataTable
+
+* User can share data source using tow type.
+                * JSON data
+                * Link data with type
+        
+JSON :      
+
+```
+   this.empHeaderDS = [
+      { field: 'empNo', title: 'Emp ID', width: '100px', filterable: true, hidden: true },
+      { field: 'name', title: 'Name', width: '100px', filterable: true, hidden: false },
+      { field: 'education', title: 'Education', width: '100px', filterable: true, hidden: false },
+      { field: 'year', title: 'Year', width: '100px', hidden: false, filterable: true, },
+      { field: 'institute', title: 'Institute', width: '100px', hidden: false, filterable: true, }
+    ];
+
+```
+
+Link with type :
+
+          ```       
+              this.generalData = {
+              ContentType: "application/json",
+              Url: "https://ethereal-honor-168405.firebaseio.com/array.json?auth=" + this.token} 
+
+          ```           
+
 
 ## UI for DataTable
 

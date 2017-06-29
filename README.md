@@ -31,10 +31,10 @@ User need to share data source or datalink with apropriate column config in opti
 ### Type of share datasource to DataTable
 
 * User can share data source using tow type.
-                * JSON data
-                * Link data with type
+    * JSON data
+    * Link data with type
         
-JSON :      
+JSON data :      
 
 ```
    this.empHeaderDS = [
@@ -47,15 +47,14 @@ JSON :
 
 ```
 
-Link with type :
+Link data with type :
 
-          ```       
-              this.generalData = {
-              ContentType: "application/json",
-              Url: "https://ethereal-honor-168405.firebaseio.com/array.json?auth=" + this.token} 
+```
+    this.generalData = {
+    ContentType: "application/json",
+    Url: "https://ethereal-honor-168405.firebaseio.com/array.json?auth=" + this.token} 
 
-          ```           
-
+``` 
 
 ## UI for DataTable
 

@@ -62,6 +62,8 @@ Link data with type :
 
 ## Deployment instructions
 
+### Install package
+
 ```
 # Install npm package :
 

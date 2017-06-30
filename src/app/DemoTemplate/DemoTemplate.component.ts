@@ -98,10 +98,15 @@ export class DemoTemplateComponent implements OnInit {
       { field: 'dOT', title: 'DOT', width: '100px' }
     ];
 
+    // this.SharedlinkColumnConfig = [
+    //   { field: 'ProductName', title: 'Product Name', width: '120px', filterable: true },
+    //   { field: 'UnitPrice', title: 'Unit Price', width: '40px', filterable: true },
+    //   { field: 'UnitsInStock', title: 'Units In Stock', width: '22px', filterable: true },
+    // ]
     this.SharedlinkColumnConfig = [
-      { field: 'ProductName', title: 'Product Name', width: '120px', filterable: true },
-      { field: 'UnitPrice', title: 'Unit Price', width: '40px', filterable: true },
-      { field: 'UnitsInStock', title: 'Units In Stock', width: '22px', filterable: true },
+      { field: 'ProductName', title: 'Product Name', filterable: true },
+      { field: 'UnitPrice', title: 'Unit Price', filterable: true },
+      { field: 'UnitsInStock', title: 'Units In Stock', filterable: true },
     ]
   }
 }

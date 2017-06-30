@@ -11,7 +11,7 @@ import { GetFirebaseDetailService } from "./GetFirebaseDetail.service";
 export class DemoTemplateComponent implements OnInit {
   generalData;
   generalOption;
-  token;
+  token;  
 
   studentDS: Student[];
   studentColumnDS = [];

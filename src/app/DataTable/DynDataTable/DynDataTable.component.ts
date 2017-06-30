@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { Subscription } from "rxjs/Subscription";
 import { Response } from '@angular/http';
+import {Observable} from 'rxjs/Rx';
 
 import { ColumnConfig } from "../ColumnConfig";
 import { HttpCallService } from "../HttpCall.service";
@@ -10,8 +11,8 @@ enum dataType {
   "string" = 1,
   "number" = 2,
   "boolean" = 3,
-  "float"= 4,
-  "double"= 5
+  "float" = 4,
+  "double" = 5
 }
 
 @Component({
@@ -29,10 +30,12 @@ export class DynDataTableComponent implements OnInit {
 
   filtterby = "";
   fieldName = "";
-  httpResponseMsg = "";
-  httpStatus;
-  ishttpData = false;
-  dataTypeOptions: dataType;
+  dataTypeOptions: dataType;  
+  isEditIndex;
+  isValidStatus = false;
+  alterMessage; 
+  isAlterVisible = false;  
+  
 
   ngOnChanges(changes: any) {
     if (this.dataSource != null && this.dataSource != undefined && this.dataSource.Url != null && this.dataSource.Url != undefined) {
@@ -41,10 +44,10 @@ export class DynDataTableComponent implements OnInit {
         (servers: any[]) => this.dataSource = servers,
         (error) => console.log(error)
         );
-      this.ishttpData = true;
+      this.isAlterVisible = true;
     }
     else {
-      this.ishttpData = false;
+      this.isAlterVisible = false;
     }
   }
 
@@ -53,22 +56,26 @@ export class DynDataTableComponent implements OnInit {
   ngOnInit() {
     this.option;
     this.httpResponce();
+    this.isAlterVisible = false;
   }
 
   httpResponce() {
     this.httpCallService.responseMessage.subscribe(
       (httpMessage: string) => {
         if (httpMessage == "Unauthorized") {
-          this.httpStatus = false;
-          this.httpResponseMsg = "Invalid authorization header. The access token you're using is either expired or invalid.";
+          this.onHideMessage(); 
+          this.isValidStatus = false;
+          this.alterMessage = "Invalid authorization header. The access token you're using is either expired or invalid.";
         }
         else if (httpMessage == "OK") {
-          this.httpStatus = true;
-          this.httpResponseMsg = "You have successfully get the data.";
+          this.onHideMessage(); 
+          this.isValidStatus = true;
+          this.alterMessage = "You have successfully get the data.";
         }
         else {
-          this.httpStatus = false;
-          this.httpResponseMsg = httpMessage + "!";
+          this.onHideMessage(); 
+          this.isValidStatus = false;
+          this.alterMessage = httpMessage + "!";
         }
       }
     );
@@ -96,6 +103,55 @@ export class DynDataTableComponent implements OnInit {
   onclick(test) {
     var type = typeof test;
     var datatype = this.OnSelectType(type);
+  }
+
+  onEdit(index) {
+    this.isEditIndex = index;     
+  }
+
+  onSave(rowIndex) {    
+    for (var i = 0; i < this.option.length; i++) {
+      var textID = this.option[i].field + '_' + rowIndex;
+      if ((<HTMLInputElement>document.getElementById(textID)).value != null 
+      && (<HTMLInputElement>document.getElementById(textID)).value.length > 0 && (<HTMLInputElement>document.getElementById(textID)).value != undefined) {             
+      }
+      else{
+        this.onHideMessage();        
+        this.isValidStatus = false;
+        this.alterMessage = "Please fill the require field."        
+        return;
+      } 
+    }
+    for (var i = 0; i < this.option.length; i++) {
+      var textID = this.option[i].field + '_' + rowIndex;
+      if ((<HTMLInputElement>document.getElementById(textID)).value != null) {
+        this.dataSource[rowIndex][this.option[i].field] = (<HTMLInputElement>document.getElementById(textID)).value;        
+      }      
+    }
+
+    this.onHideMessage();    
+    this.isValidStatus = true;
+    this.alterMessage = "Sucessfully save data!"
+    this.isEditIndex = null;
+  }
+
+  onDelete(rowIndex) {
+
+    var isConfirmed = confirm("Are you sure to delete this record ?");
+      if(isConfirmed){
+       this.dataSource.splice(rowIndex, 1);
+      }else{
+        return false;
+      }
+  }
+
+  onHideMessage(){
+    this.isAlterVisible = true;
+    Observable.interval(2000)
+          .take(10).map((x) => x+1)
+          .subscribe((x) => {            
+            this.isAlterVisible = false;
+          })
   }
 
   currentType: dataType;

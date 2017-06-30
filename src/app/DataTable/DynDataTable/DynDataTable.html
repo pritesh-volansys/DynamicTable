@@ -1,4 +1,3 @@
-<br> <br> <br>
 <div class="container">
   <div class="row">
     <div class="col-xs-12">
@@ -13,16 +12,28 @@
             </th>
           </thead>
           <tbody>
-            <tr *ngFor="let record of dataSource | orderBy : convertSortingType() | filter:filtterby:fieldName">
+            <tr *ngFor="let record of dataSource| orderBy : convertSortingType() | filter:filtterby:fieldName ; let i = index">
               <td *ngFor="let cl of option" [style.display]="cl.hidden ? 'none' : ''" #clmRef>
-                <p (click)="onclick(record[cl.field])" [ngStyle]="{width: cl.width}" ngClass="shorten">{{record[cl.field]}}</p>
+                <p (click)="onclick(record[cl.field])" *ngIf="isEditIndex != i" [ngStyle]="{width: cl.width}" ngClass="shorten">{{record[cl.field]}}</p>
+                <input class="form-control" *ngIf="isEditIndex == i" id="{{cl.field +'_'+ i}}" value={{record[cl.field]}} [placeholder]="cl.field"
+                  [ngStyle]="{width: cl.width}" ngClass="shorten" />
+              </td>
+              <td>
+                <button class="btn btn-primary" *ngIf="isEditIndex != i" style="cursor: pointer" type="button" (click)="onEdit(i)">
+                <img  width="20" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAADlUlEQVRoQ9WZWahOURTHf9fUVSIUKTxIN90MGTI/mB6ER1ISSlLEk7woUzx482BKQnkgr5L5vhlLhksyPijKkLqRIWN/rV2n44zfd87Zx1en7rC/ff7/tdZ/rb3XauE//7TUDP8UYC0wGxgG/AReAFeAQ8CDMN66EOgDHASWJxj0N3AA2AR8devqQGAgcB6YBHwE9gKngSdAD2AMsBJYY7/LGwuBbyLhm8AA4DIw3sJDwF7GeEEEzwKDgH3ABt8EguAVHrL0wxRNisR1oDswDuj05YEgeAlVgCTQucDbFBL7gXXOCz4IBMHfBxYDJ4GJGUlMBm4Cj4D2qgmEwcvi74H+wKWMJFqBLybi1ioJxIF3EZOVhDLTd3t6VUUgDbwjMQJ4bOkyThPtJvanQFsVBLKCD3ogSdjbgW3AYVXtsgk0Aj5J2EPN+n2BCcCdMgk0Cj5O2EuAU5b/j1hlLq0SNws+Sti/gG6yOjAT+FxWJS4KfJSwFV7OQ3//X3QIFQ0+KOx/wBdNoHLwRRIQeFVSZYZIS1k8BC3aCcyxShw+/qRavsj7gDfwRXjAK/hmCXgH3wyBWoBvlEBtwDdCoFHwKj7vIm5ambNN3C0tTyHTy3QBz5sqSwOfxwO1BJ+VQG3BZyFQa/BpBGoPPolAI+B1h9XZppRskycL6dZ/GxhrYEbHNJvCXYTKwcd5YBpwLcBYXYJddp37EXGq9GL5pNPoDmArcAPobXdQrX8G7LYG67lAE8qL5ZMICLgGDcvM6guALYA8o4+aSj2tDegVfFQIqVfvRKg2ttp+bt0sI6LKqr7NcOB1GceDOMFG/T18lFhqVr9lXoj6jo4TIrEaOBpa0PTZJg/4KA8cA1YBO637FbWfwkZTkufAKCBK2EnXyrwYE9cHPaCfXwFDgOk2SIjz2lXTxArgRKi7XBn4sAeU9+8BmpaohRcV346QhK1xj+ZYM2zGpf5+peDDBDYDewyhhgcadb6J8Z+8pWKn2ZbWDPYBPkxAca347gL62QQkioSEOg/YaC0+7VO55cN1QHPaD5bfdXQ4bmNPeUIZRyE1356p1qN0e2gwpxTrUm6hIk3bzIl4EXDGLKnpX5uJWFdI11QN7qXwuWCxr8Kn4ubl4who7rreRPnJro1BQJocXjTA6sClTRIrI+MIaFwzMvBW5XYd6JyV75onKgOW9UWOgFKiZk8CrKfDxJx1H2/r8nQlvIFMevEfB5xvQJ4HEcsAAAAASUVORK5CYII="/>
+                </button>
+                <button class="btn btn-success" width="20" *ngIf="isEditIndex == i" style="cursor: pointer" type="button" (click)="onSave(i)">Save</button>
+                <button class="btn btn-danger" style="cursor: pointer" type="button" (click)="onDelete(i)">
+                <img  width="20" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAADgUlEQVRoQ+3aWchuUxgH8N9xDCck55gjuUIcF4YSZTo6hnBhSHQi5UYyRRIuUDKEIvMNF6YypBQyj6Vw4ULG22MIOWS6MPbXek+v/e397fecd73fKWevm+9799rreZ7/etb6P2s9z16kftsLF+EY7IHf8TGext1YU1PloprCcAWux6Ydcr/FKrxUS29NANfimmLYT3gMH2ALHImTsEnxyLF4rQaIWgAOxjuIvPw9BV83DDwUz2A7fIk98cu0IGoBiGGZ4S+w3zzr/Dg8X4y+EHfNEkDcvSOW9CjZDB9ic9yM+3ref6HM/ls4ewIAv+KbrvfaPLA1rsM5WDaBgoV4ZTXuwa1lD63V2QQQ49/E/gth1XroCHudMA6iCeA2XFoE5/9H8Nt6KKo5ZBtcgLOK0MuLJ/79OQ4gaz48nWVzP86raUUFWdk7CY4JivuM5I0D2BlflY4T8WwFpTVFXIzb8QdCHHM8EFf9WJ5fgjtqaq8g68FCLFklYcc5APLgfRyI78pmebeC4hoizsRDWIyHx/bDf/ZAFCXQPDe2Nz5HeHhDtkTu3YoBidxhyNjV6oE8DP8nQm61Ia1u0Z39GU+8Md7XdZTYAadi7wki8axxhsZzKHyy7exU6yw0axCd8v/3AB4vbHR8OWIs5ExfhdwxQuk5B7W2Pg+ETsMCV+KmhoRtcThexc8d8o8o0f2jjv7dS1TNGefPxjsv42g8hdNmASA3rjNwL85vURDjXy80vH3HmeoT5A59Lh5YaAB9M5RZe6IYFVaLN5ttPg/3ye+MA+NKplEwAJj1Huhz8eCBwQOFObriwLCEppyggUaHJTQsoUZeqO3ANxwlhsPcDO8DAwsNLLQxsVAyBDeu45112vvAK1gx7aU+pZ1dcQOubgBIueeyUtS+syWILC/J4k9xQEvWIUNi5GFY2UwZ4j0cVJK6nbW0vrTKiGneLoqaacml+H6eZFFS9kkNplrf1lIQTw52lNYfvRO5KdOmcNiW0lkrqw9ASjuj2U1x+sV5jK3ZNfJuZCY/Gy+2tj4AmZ0MzjL6oSSY4vZZtZS5UqO7pSh4tHya0KmvD0AGJvuWzFncmZZllWxcAP1dCUkM3wUnY98i8zMc0rNE5xQ4uuw5qnz7sFMlg/vEpAh+esvnCnPGTeKB0aDkQlO5TN0gVcIt+6xYx/6QQUpaqYWlFvDXJOP/Ae5BVEDJd53kAAAAAElFTkSuQmCC"/>
+                </button>
               </td>
             </tr>
           </tbody>
         </table>
       </div>
-      <div *ngIf="ishttpData" [ngClass]="(httpStatus)?'alert alert-success':'alert alert-warning'" style="margin: 20px;" class="col-xs-7">
-        {{httpResponseMsg}}
+      <div *ngIf="isAlterVisible" [ngClass]="(isValidStatus)?'alert alert-success':'alert alert-warning'" style="margin: 20px;"
+        class="col-xs-7">
+        {{alterMessage}}
       </div>      
     </div>
   </div>

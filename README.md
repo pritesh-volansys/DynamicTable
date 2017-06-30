@@ -28,11 +28,7 @@ User need to share data source or datalink with apropriate column config in opti
 ```
 
 
-<<<<<<< HEAD
 ### Type of share the datasource to DataTable
-=======
-### Type of share datasource to DataTable
->>>>>>> 31c9b3c221bd5cd4f6b6aa3ee419a1a72b322748
 
 * User can share data source using tow type.
     * JSON data

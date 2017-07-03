@@ -1,7 +1,7 @@
-import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, Output, ViewChild, ElementRef, EventEmitter } from '@angular/core';
 import { Subscription } from "rxjs/Subscription";
 import { Response } from '@angular/http';
-import {Observable} from 'rxjs/Rx';
+import { Observable } from 'rxjs/Rx';
 
 import { ColumnConfig } from "../ColumnConfig";
 import { HttpCallService } from "../HttpCall.service";
@@ -27,15 +27,16 @@ export class DynDataTableComponent implements OnInit {
   @Input() option: any[];
   @Input() sort: any;
   @ViewChild('clmRef') clmRef: ElementRef;
+  @Output() onChange = new EventEmitter<{ editItem: any }>();
 
   filtterby = "";
   fieldName = "";
-  dataTypeOptions: dataType;  
+  dataTypeOptions: dataType;
   isEditIndex;
   isValidStatus = false;
-  alterMessage; 
-  isAlterVisible = false;  
-  
+  alterMessage;
+  isAlterVisible = false;
+
 
   ngOnChanges(changes: any) {
     if (this.dataSource != null && this.dataSource != undefined && this.dataSource.Url != null && this.dataSource.Url != undefined) {
@@ -63,17 +64,17 @@ export class DynDataTableComponent implements OnInit {
     this.httpCallService.responseMessage.subscribe(
       (httpMessage: string) => {
         if (httpMessage == "Unauthorized") {
-          this.onHideMessage(); 
+          this.onHideMessage();
           this.isValidStatus = false;
           this.alterMessage = "Invalid authorization header. The access token you're using is either expired or invalid.";
         }
         else if (httpMessage == "OK") {
-          this.onHideMessage(); 
+          this.onHideMessage();
           this.isValidStatus = true;
           this.alterMessage = "You have successfully get the data.";
         }
         else {
-          this.onHideMessage(); 
+          this.onHideMessage();
           this.isValidStatus = false;
           this.alterMessage = httpMessage + "!";
         }
@@ -100,58 +101,80 @@ export class DynDataTableComponent implements OnInit {
     return this.sort.descending ? '-' + this.sort.column : this.sort.column;
   }
 
-  onclick(test) {
-    var type = typeof test;
-    var datatype = this.OnSelectType(type);
+  onChecktype(record, field) {
+    var type = typeof record[field];
+    return type;
   }
 
-  onEdit(index) {
-    this.isEditIndex = index;     
+
+  onEdit(index, record) {
+    //Store inside the table
+    this.isEditIndex = index;
+
+    //Share out side the data on edit
+    //  this.onChange.emit({
+    //    editItem: record
+    //  });     
   }
 
-  onSave(rowIndex) {    
+  onSave(rowIndex) {
     for (var i = 0; i < this.option.length; i++) {
       var textID = this.option[i].field + '_' + rowIndex;
-      if ((<HTMLInputElement>document.getElementById(textID)).value != null 
-      && (<HTMLInputElement>document.getElementById(textID)).value.length > 0 && (<HTMLInputElement>document.getElementById(textID)).value != undefined) {             
+      if ((<HTMLInputElement>document.getElementById(textID)).value != null
+        && (<HTMLInputElement>document.getElementById(textID)).value.length > 0 && (<HTMLInputElement>document.getElementById(textID)).value != undefined) {
       }
-      else{
-        this.onHideMessage();        
+      else {
+        this.onHideMessage();
         this.isValidStatus = false;
-        this.alterMessage = "Please fill the require field."        
+        this.alterMessage = "Please fill the require field."
         return;
-      } 
+      }
     }
     for (var i = 0; i < this.option.length; i++) {
-      var textID = this.option[i].field + '_' + rowIndex;
+      var textID = this.option[i].field + '_' + rowIndex;      
       if ((<HTMLInputElement>document.getElementById(textID)).value != null) {
-        this.dataSource[rowIndex][this.option[i].field] = (<HTMLInputElement>document.getElementById(textID)).value;        
-      }      
+        if ((<HTMLInputElement>document.getElementById(textID)).type == "checkbox") {
+          console.log((<HTMLInputElement>document.getElementById(textID)).checked);          
+          this.dataSource[rowIndex][this.option[i].field] = (<HTMLInputElement>document.getElementById(textID)).checked;
+        }
+        else
+          this.dataSource[rowIndex][this.option[i].field] = (<HTMLInputElement>document.getElementById(textID)).value;
+      }
     }
 
-    this.onHideMessage();    
+    this.onHideMessage();
     this.isValidStatus = true;
-    this.alterMessage = "Sucessfully save data!"
+    this.alterMessage = "Your details have been saved successfully."
     this.isEditIndex = null;
+    this.OnStoreData();
   }
 
   onDelete(rowIndex) {
-
     var isConfirmed = confirm("Are you sure to delete this record ?");
-      if(isConfirmed){
-       this.dataSource.splice(rowIndex, 1);
-      }else{
-        return false;
-      }
+    if (isConfirmed) {
+      this.dataSource.splice(rowIndex, 1);
+    } else {
+      return false;
+    }
+    //After Delete store data.
+    //this.OnStoreData();
   }
 
-  onHideMessage(){
+  OnStoreData() {    
+    this.httpCallService.StoreData(this.dataSource).subscribe(
+      (response: Response) => {
+        console.log("StoreData :::::" + response);
+      }
+    );
+  }
+
+  onHideMessage() {
     this.isAlterVisible = true;
     Observable.interval(2000)
-          .take(10).map((x) => x+1)
-          .subscribe((x) => {            
-            this.isAlterVisible = false;
-          })
+      .take(10).map((x) => x + 1)
+      .subscribe((x) => {
+        this.isAlterVisible = false;
+      })
   }
 
   currentType: dataType;

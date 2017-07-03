@@ -1,17 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Employee } from "app/Model/Employee.model";
 import { Student } from "app/Model/Student.model";
+import { Product } from "app/Model/Product.model";
 import { GetFirebaseDetailService } from "./GetFirebaseDetail.service";
-
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-DemoTemplate',
   templateUrl: 'DemoTemplate.html',
 })
 export class DemoTemplateComponent implements OnInit {
+  @ViewChild('f') productForm: NgForm;
+
   generalData;
   generalOption;
-  token;  
+  token;
+  showDialog = false;
+  EditItem: Product;
 
   studentDS: Student[];
   studentColumnDS = [];
@@ -44,19 +49,36 @@ export class DemoTemplateComponent implements OnInit {
     }
   }
 
+  onChangeItem(item) {
+    this.showDialog = !this.showDialog;    
+    this.EditItem = item.editItem; 
+    this.productForm.setValue({
+      ProductName: item.editItem.ProductName,
+      UnitPrice: item.editItem.UnitPrice,
+      UnitsInStock: item.editItem.UnitsInStock,
+    })
+  }
+
+  onSaveData(form: NgForm) {
+    this.EditItem.ProductName = form.value.ProductName;
+    this.EditItem.UnitPrice = form.value.UnitPrice;
+    this.EditItem.UnitsInStock = form.value.UnitsInStock;    
+    this.showDialog = !this.showDialog
+  }
+
   initDataSource() {
     this.loadDS();
     this.getFBDetailService.changeToken.subscribe(
       (key: string) => {
-        this.token = key; 
+        this.token = key;
         this.generalData = {
           ContentType: "application/json",
-            Url: "https://ethereal-honor-168405.firebaseio.com/array.json?auth=" + this.token
+          Url: "https://ethereal-honor-168405.firebaseio.com/array.json?auth=" + this.token
           //Url: "https://ethereal-honor-168405.firebaseio.com/array.json?auth="
         };
-        this.generalOption = this.SharedlinkColumnConfig;        
+        this.generalOption = this.SharedlinkColumnConfig;
       }
-    );    
+    );
   }
 
 
@@ -107,6 +129,7 @@ export class DemoTemplateComponent implements OnInit {
       { field: 'ProductName', title: 'Product Name', filterable: true },
       { field: 'UnitPrice', title: 'Unit Price', filterable: true },
       { field: 'UnitsInStock', title: 'Units In Stock', filterable: true },
+      { field: 'Discontinued', title: 'Discontinued', filterable: true },
     ]
   }
 }

@@ -6,9 +6,11 @@ import { Subject } from "rxjs/Rx";
 @Injectable()
 export class HttpCallService {
   responseMessage = new Subject<string>();
+  ReqestOption;
   constructor(private http: Http) { }
 
   getLinkData(httpReqestOption) {        
+    this.ReqestOption = httpReqestOption;
     const headers = new Headers({ 'Content-Type': httpReqestOption.ContentType })        
     return this.http.get(httpReqestOption.Url)
     .map(
@@ -25,6 +27,10 @@ export class HttpCallService {
           this.responseMessage.next(error.statusText);
           return Observable.throw(error.statusText);
         });
+  }
+
+  StoreData(dataSet){
+     return this.http.put(this.ReqestOption.Url, dataSet);
   }
 
 

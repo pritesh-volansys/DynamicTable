@@ -33,6 +33,7 @@ export class DemoTemplateComponent implements OnInit {
   }
 
   ngOnInit() {
+    //Chandani Create constant file to declare such variables
     this.getFBDetailService.signinUser("test.456@gmail.com", "9429053121");
     this.initDataSource();
   }
@@ -50,8 +51,8 @@ export class DemoTemplateComponent implements OnInit {
   }
 
   onChangeItem(item) {
-    this.showDialog = !this.showDialog;    
-    this.EditItem = item.editItem; 
+    this.showDialog = !this.showDialog;
+    this.EditItem = item.editItem;
     this.productForm.setValue({
       ProductName: item.editItem.ProductName,
       UnitPrice: item.editItem.UnitPrice,
@@ -62,12 +63,13 @@ export class DemoTemplateComponent implements OnInit {
   onSaveData(form: NgForm) {
     this.EditItem.ProductName = form.value.ProductName;
     this.EditItem.UnitPrice = form.value.UnitPrice;
-    this.EditItem.UnitsInStock = form.value.UnitsInStock;    
+    this.EditItem.UnitsInStock = form.value.UnitsInStock;
     this.showDialog = !this.showDialog
   }
 
   initDataSource() {
     this.loadDS();
+    //Chandani Create constant file to declare content-type and url
     this.getFBDetailService.changeToken.subscribe(
       (key: string) => {
         this.token = key;
@@ -81,7 +83,8 @@ export class DemoTemplateComponent implements OnInit {
     );
   }
 
-
+  //Chandani Create file todeclare this and import
+  // Method is not required to declare such data
   loadDS() {
     this.empDS = [
       new Employee(1, 'Jone', 'BE CSE', 2014, 'AIT'),

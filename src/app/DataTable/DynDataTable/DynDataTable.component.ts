@@ -6,6 +6,7 @@ import { Observable } from 'rxjs/Rx';
 import { ColumnConfig } from "../ColumnConfig";
 import { HttpCallService } from "../HttpCall.service";
 
+//Move this to separate class and import to use it
 enum dataType {
   "date" = 0,
   "string" = 1,
@@ -41,6 +42,8 @@ export class DynDataTableComponent implements OnInit {
 
 
   ngOnChanges(changes: any) {
+    //Chandani in javascript comparision of values should be !== or === i.e this.dataSource !== undefined
+    // Same mistake everywhere
     if (this.dataSource != null && this.dataSource != undefined && this.dataSource.Url != null && this.dataSource.Url != undefined) {
       this.httpCallService.getLinkData(this.dataSource)
         .subscribe(
@@ -57,6 +60,7 @@ export class DynDataTableComponent implements OnInit {
   constructor(private httpCallService: HttpCallService) { }
 
   ngOnInit() {
+//Chandani this is not allowed unused expression, expected an assignment or function call
     this.option;
     this.httpResponce();
     this.isAlterVisible = false;
@@ -90,6 +94,7 @@ export class DynDataTableComponent implements OnInit {
   }
 
   onChangeSortingType(columnName): void {
+    //this.sort is not reassigned why we store it in local var can't we use this.sort.column?
     var sort = this.sort;
     if (sort.column == columnName) {
       sort.descending = !sort.descending;
@@ -104,12 +109,27 @@ export class DynDataTableComponent implements OnInit {
   }
 
   onChecktype(record, field) {
+    //Chandani can't we use directly return typeof record[field];
     var type = typeof record[field];
     return type;
   }
 
 
   onEdit(index, record) {
+    //Chandani use spaces while using special chars update everywhere
+    /*
+    if (this.insideEdit) {
+      //If edit mode inside the table on edit click
+      this.isEditIndex = index;
+    }
+    else {
+      //Or Edit mode Share on edit click
+      this.onChange.emit({
+        editItem: record
+      });
+    }
+    */
+
     if(this.insideEdit){
       //If edit mode inside the table on edit click
       this.isEditIndex = index;
@@ -118,12 +138,13 @@ export class DynDataTableComponent implements OnInit {
       //Or Edit mode Share on edit click
       this.onChange.emit({
         editItem: record
-      });     
-    }    
+      });
+    }
   }
 
   onSave(rowIndex) {
     for (var i = 0; i < this.option.length; i++) {
+      //Chandani Line should not exceed 140 chars
       var textID = this.option[i].field + '_' + rowIndex;
       if ((<HTMLInputElement>document.getElementById(textID)).value != null
         && (<HTMLInputElement>document.getElementById(textID)).value.length > 0 && (<HTMLInputElement>document.getElementById(textID)).value != undefined) {
@@ -135,14 +156,15 @@ export class DynDataTableComponent implements OnInit {
         return;
       }
     }
+
     for (var i = 0; i < this.option.length; i++) {
-      var textID = this.option[i].field + '_' + rowIndex;      
+      var textID = this.option[i].field + '_' + rowIndex;
       if ((<HTMLInputElement>document.getElementById(textID)).value != null) {
         if ((<HTMLInputElement>document.getElementById(textID)).type == "checkbox") {
-          console.log((<HTMLInputElement>document.getElementById(textID)).checked);          
+          console.log((<HTMLInputElement>document.getElementById(textID)).checked);
           this.dataSource[rowIndex][this.option[i].field] = (<HTMLInputElement>document.getElementById(textID)).checked;
         }
-        else
+        else //Chandani: Use braces
           this.dataSource[rowIndex][this.option[i].field] = (<HTMLInputElement>document.getElementById(textID)).value;
       }
     }
@@ -165,7 +187,7 @@ export class DynDataTableComponent implements OnInit {
     //this.OnStoreData();
   }
 
-  OnStoreData() {    
+  OnStoreData() {
     this.httpCallService.StoreData(this.dataSource).subscribe(
       (response: Response) => {
         console.log("StoreData :::::" + response);
@@ -182,9 +204,11 @@ export class DynDataTableComponent implements OnInit {
       })
   }
 
+// Chandani Move this to top portion before constructor
   currentType: dataType;
 
   OnSelectType(type) {
+    //Chandani This is forbidden
     debugger;
     switch (type) {
       case dataType.string.toString():

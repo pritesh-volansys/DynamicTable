@@ -25,9 +25,11 @@ enum dataType {
 export class DynDataTableComponent implements OnInit {
   @Input() dataSource: any;
   @Input() option: any[];
+  @Input() insideEdit : boolean;
   @Input() sort: any;
   @ViewChild('clmRef') clmRef: ElementRef;
   @Output() onChange = new EventEmitter<{ editItem: any }>();
+
 
   filtterby = "";
   fieldName = "";
@@ -108,13 +110,16 @@ export class DynDataTableComponent implements OnInit {
 
 
   onEdit(index, record) {
-    //Store inside the table
-    this.isEditIndex = index;
-
-    //Share out side the data on edit
-    //  this.onChange.emit({
-    //    editItem: record
-    //  });     
+    if(this.insideEdit){
+      //If edit mode inside the table on edit click
+      this.isEditIndex = index;
+    }
+    else{
+      //Or Edit mode Share on edit click
+      this.onChange.emit({
+        editItem: record
+      });     
+    }    
   }
 
   onSave(rowIndex) {

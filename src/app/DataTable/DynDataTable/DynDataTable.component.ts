@@ -9,7 +9,7 @@ import { ColumnConfig } from '../ColumnConfig';
 import { HttpCallService } from '../HttpCall.service';
 
 @Component({
-  selector: 'app-DataTable',
+  selector: 'app-datatable',
   templateUrl: './DynDataTable.html',
   styleUrls: ['./DynDataTable.style.css']
 })

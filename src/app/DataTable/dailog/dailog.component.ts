@@ -3,7 +3,7 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
 
 
 @Component({
-  selector: 'mDialog',
+  selector: 'app-dialog',
   templateUrl: './dailog.component.html',
   styleUrls: ['./dailog.component.css'],
   animations: [

@@ -5,7 +5,7 @@
     </div>
     <div class="btn-group">
       <button class="btn btn-success" style="margin: 37px;cursor: pointer" type="button" (click)="onChangeDataSource()">Change Data</button>
-      <app-DataTable [option]="generalOption" [inLineEdit]=false (onSaveDeatil)="onSavedItem($event)" (onChange)="onChangeItem($event)" [dataSource]="generalData"></app-DataTable>
+      <app-datatable [option]="generalOption" [inLineEdit]=false (onSaveDeatil)="onSavedItem($event)" (onChange)="onChangeItem($event)" [dataSource]="generalData"></app-datatable>
     </div>
     <!-- Open popup in demo template -->
     <!--<div>      

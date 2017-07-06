@@ -48,7 +48,7 @@
       </div>
     </div>
     <div *ngIf="showDialog">
-      <mDialog [(visible)]="showDialog">
+      <app-dialog [(visible)]="showDialog">
         <form (ngSubmit)="onSaveData(frm)" [formGroup]="editFormGroup" #frm="ngForm">
           <div *ngFor="let cl of option">
             <div [style.display]="cl.hidden ? 'none' : ''" class="form-group">
@@ -62,7 +62,7 @@
           <button (click)="showDialog = !showDialog" class="btn btn-danger">Close</button>
         </form>
         <br>
-      </mDialog>
+      </app-dialog>
     </div>
   </div>
 </div>

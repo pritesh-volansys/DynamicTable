@@ -8,7 +8,7 @@ export class ColumnConfig {
   public hidden: boolean;
 
   constructor(field: string, title: string, width: number,
-    height: number, scrollable: boolean, filterable: boolean, hidden:boolean) {
+    height: number, scrollable: boolean, filterable: boolean, hidden: boolean) {
 
     this.field = field;
     this.title = title;

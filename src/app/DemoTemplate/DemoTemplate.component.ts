@@ -7,7 +7,7 @@ import { Product } from 'app/Model/Product.model';
 import { GetFirebaseDetailService } from './GetFirebaseDetail.service';
 
 @Component({
-  selector: 'app-DemoTemplate',
+  selector: 'app-demotemplate',
   templateUrl: 'DemoTemplate.html',
 })
 export class DemoTemplateComponent implements OnInit {

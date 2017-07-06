@@ -4,7 +4,7 @@ import * as firebase from 'firebase';
 
 @Component({
   selector: 'app-root',
-  template: '<app-DemoTemplate></app-DemoTemplate>',
+  template: '<app-demotemplate></app-demotemplate>',
 })
 export class AppComponent implements OnInit {
   constructor() {

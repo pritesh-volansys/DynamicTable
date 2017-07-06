@@ -23,7 +23,7 @@ User need to share data source or datalink with apropriate column config in opti
 
 ```
 
-<app-DataTable [option]="generalOption" [dataSource]="generalData" [sort]="sorting" ></app-DataTable>
+<app-datatable [option]="generalOption" [dataSource]="generalData"></app-datatable>
 
 ```
 
@@ -52,7 +52,7 @@ Link data with type :
 ```
     this.generalData = {
     ContentType: "application/json",
-    Url: "https://ethereal-honor-168405.firebaseio.com/array.json?auth=" + this.token} 
+    Url: "https://xyz/array.json?auth=" + this.token} 
 
 ``` 
 
@@ -76,6 +76,10 @@ Link data with type :
 # Firebase package :
 
 > npm install --save firebase
+
+# Fontawesome package :
+
+> npm install --save font-awesome
 
 ```
 

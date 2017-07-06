@@ -37,6 +37,7 @@ export class DynDataTableComponent implements OnInit, OnChanges {
     column: 'ProductName',
     descending: false
   };
+  editRecord;
 
 
   constructor(private httpCallService: HttpCallService) { }
@@ -129,20 +130,9 @@ export class DynDataTableComponent implements OnInit, OnChanges {
     }
   }
 
-
-
   onEdit(index, record) {
+    this.editRecord = record;
     this.initForm(index, record);
-    // if(this.inLineEdit){
-    //   //If edit mode inside the table on edit click
-    //   this.isEditIndex = index;
-    // }
-    // else{
-    //   //Or Edit mode Share on click
-    //   this.onChange.emit({
-    //     editItem: record
-    //   });
-    // }
   }
 
   onDbClickEdit(index) {
@@ -161,10 +151,10 @@ export class DynDataTableComponent implements OnInit, OnChanges {
   onSaveData(form: NgForm) {
     let SaveItem = [];
     for (const item of this.option) {
-      if (item.field === 'Discontinued') {
-        console.log(form.value[item.field]);
-      }
       SaveItem[item.field] = form.value[item.field];
+      if (this.editRecord != null) {
+        this.editRecord[item.field] = form.value[item.field];
+      }
     }
     this.onSaveDeatil.emit({
       Item: SaveItem
@@ -222,11 +212,11 @@ export class DynDataTableComponent implements OnInit, OnChanges {
   }
 
   OnStoreData() {
-    this.httpCallService.StoreData(this.dataSource).subscribe(
-      (response: Response) => {
-        console.log('StoreData :::::' + response);
-      }
-    );
+    // this.httpCallService.StoreData(this.dataSource).subscribe(
+    //   (response: Response) => {
+    //     console.log('StoreData :::::' + response);
+    //   }
+    // );
   }
 
   onHideMessage() {

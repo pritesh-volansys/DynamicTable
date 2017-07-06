@@ -10,6 +10,7 @@ export class AppComponent implements OnInit {
   constructor() {
   }
   ngOnInit() {
+    //Chandani Create constant file to declare such variables
     firebase.initializeApp({
       apiKey: "AIzaSyDd795-J77Oo5pNDEXECymWHFvdxA9iM28",
       authDomain: "ethereal-honor-168405.firebaseapp.com",

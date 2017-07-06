@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { Subject } from "rxjs/Rx";
+import { Subject } from 'rxjs/Rx';
 
 @Injectable()
 export class HttpCallService {
@@ -32,6 +32,4 @@ export class HttpCallService {
   StoreData(dataSet){
      return this.http.put(this.ReqestOption.Url, dataSet);
   }
-
-
 }

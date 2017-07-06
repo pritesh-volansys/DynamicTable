@@ -7,3 +7,29 @@
 .table-hover>tbody>tr:hover {
     background-color: #d6e9c6;        
 }
+
+.table-sortable>thead>tr>th>p {
+    cursor: pointer;
+    position: relative;
+    background-image: none;
+}
+ 
+.table>thead>tr>th>p:after,
+.table>thead>tr>th>p.sort-false:after,
+.table>thead>tr>th>p.sort-true:after {
+    font-family: FontAwesome;
+    padding-left: 5px;
+}
+
+.table>thead>tr>th>p:after {
+    content: "\f0dc" !important;    
+    color: #ddd;
+}
+.table>thead>tr>th>p.sort-false:after {
+    content: "\f0de" !important;
+    color: #767676;
+}
+.table>thead>tr>th>p.sort-true:after {
+    content: "\f0dd" !important;
+    color: #767676;
+}

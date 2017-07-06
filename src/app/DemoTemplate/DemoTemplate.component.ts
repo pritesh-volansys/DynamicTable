@@ -1,9 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from "@angular/forms";
+import { Component, OnInit, ViewChild } from "@angular/core";
+
 import { Employee } from "app/Model/Employee.model";
 import { Student } from "app/Model/Student.model";
 import { Product } from "app/Model/Product.model";
 import { GetFirebaseDetailService } from "./GetFirebaseDetail.service";
-import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-DemoTemplate',
@@ -21,10 +22,6 @@ export class DemoTemplateComponent implements OnInit {
   studentDS: Student[];
   studentColumnDS = [];
   isStudent = false;
-  sorting: any = {
-    column: '',
-    descending: false
-  };
 
   empDS: Employee[];
   empHeaderDS = [];
@@ -33,8 +30,9 @@ export class DemoTemplateComponent implements OnInit {
   }
 
   ngOnInit() {
-    //Chandani Create constant file to declare such variables
-    this.getFBDetailService.signinUser("test.456@gmail.com", "9429053121");
+    const mail = "test.456@gmail.com";
+    const pass = "9429053121";
+    this.getFBDetailService.signinUser(mail, pass);
     this.initDataSource();
   }
 
@@ -60,6 +58,11 @@ export class DemoTemplateComponent implements OnInit {
     })
   }
 
+  onSavedItem(data){
+    console.log("Demo Teamplate data");    
+    console.log(data.Item);    
+  }
+
   onSaveData(form: NgForm) {
     this.EditItem.ProductName = form.value.ProductName;
     this.EditItem.UnitPrice = form.value.UnitPrice;
@@ -69,24 +72,23 @@ export class DemoTemplateComponent implements OnInit {
 
   initDataSource() {
     this.loadDS();
-    //Chandani Create constant file to declare content-type and url
+    const content = "application/json";
+    const url = "https://ethereal-honor-168405.firebaseio.com/array.json?auth=";
     this.getFBDetailService.changeToken.subscribe(
       (key: string) => {
         this.token = key;
         this.generalData = {
-          ContentType: "application/json",
-          Url: "https://ethereal-honor-168405.firebaseio.com/array.json?auth=" + this.token
-          //Url: "https://ethereal-honor-168405.firebaseio.com/array.json?auth="
+          ContentType: content,
+          Url: url + this.token
+          //Url: url
         };
         this.generalOption = this.SharedlinkColumnConfig;
       }
     );
   }
-
-  //Chandani Create file todeclare this and import
-  // Method is not required to declare such data
+  
   loadDS() {
-    this.empDS = [
+    this.empDS =  [
       new Employee(1, 'Jone', 'BE CSE', 2014, 'AIT'),
       new Employee(2, 'David', 'BTech IT', 2014, 'VIT'),
       new Employee(3, 'Ding', 'MTech EEE', 2014, 'AIT'),

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 
@@ -9,17 +9,20 @@ import { DynDataTableComponent } from "./DynDataTable/DynDataTable.component";
 import { FillterColumns } from "./FillterColumns.pipe";
 import { OrderbyColumns } from "./OrderbyColumns.pipe";
 import { ShortenColumnVal } from "./ShortenColumnVal.pipe";
+import { DailogComponent } from "./dailog/dailog.component";
 
 @NgModule({
     declarations: [
         DynDataTableComponent,
         FillterColumns,
         OrderbyColumns,
-        ShortenColumnVal
+        ShortenColumnVal,
+        DailogComponent
     ],
     imports: [                
         CommonModule,
         FormsModule,
+        ReactiveFormsModule,
         HttpModule
     ],
     providers: [HttpCallService],

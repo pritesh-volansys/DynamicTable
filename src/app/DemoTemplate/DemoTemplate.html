@@ -5,9 +5,10 @@
     </div>
     <div class="btn-group">
       <button class="btn btn-success" style="margin: 37px;cursor: pointer" type="button" (click)="onChangeDataSource()">Change Data</button>
-      <app-DataTable [option]="generalOption" [insideEdit]=true (onChange)="onChangeItem($event)" [dataSource]="generalData" [sort]="sorting"></app-DataTable>
+      <app-DataTable [option]="generalOption" [inLineEdit]=false (onSaveDeatil)="onSavedItem($event)" (onChange)="onChangeItem($event)" [dataSource]="generalData"></app-DataTable>
     </div>
-    <div>      
+    <!-- Open popup in demo template -->
+    <!--<div>      
       <mDialog [(visible)]="showDialog">
         <form (ngSubmit)="onSaveData(f)" #f="ngForm">
           <div class="form-group">
@@ -27,11 +28,12 @@
             required
             pattern="^[1-9]+[0-9]*$">
           </div>
+          <hr>
           <button class="btn btn-success" type="submit" [disabled]="!f.valid">Save</button>
           <button (click)="showDialog = !showDialog" class="btn btn-danger">Close</button>
         </form>
         <br>        
       </mDialog>
-    </div>
+    </div>-->
   </div>
 </div>

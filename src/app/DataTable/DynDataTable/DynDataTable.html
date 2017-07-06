@@ -2,23 +2,28 @@
   <div class="row">
     <div class="col-xs-12">
       <div style="padding:20px">
-        <table class="table  table-responsive table-hover data-table sort display table-striped table-bordered">
+        <table class="table  table-responsive table-hover data-table sort display table-striped table-sortable table-bordered">
           <thead>
+            <tr>
             <th [ngStyle]="[{width: column.width}]" [style.display]="column.hidden ? 'none' : ''" *ngFor="let column of option">
               <input class="form-control" *ngIf="column.filterable" (input)="onChangeFiltterValue($event,column.field)" [placeholder]="column.field"
               />
               <br><br>
-              <p (click)="onChangeSortingType(column.field)">{{column.title | uppercase}}</p>
+              <p (click)="onChangeSortingType(column.field)" [class]="selectedClass(column.field)">{{column.title | uppercase}}</p>
             </th>
+            </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let record of dataSource| orderBy : convertSortingType() | filter:filtterby:fieldName ; let i = index" (dblclick)=onEdit(i) >
+            <tr *ngFor="let record of dataSource| orderBy : convertSortingType() | filter:filtterby:fieldName ; let i = index" (dblclick)=onEdit(i)>
               <td *ngFor="let cl of option" [style.display]="cl.hidden ? 'none' : ''" #clmRef>
-                <p (click)="onclick(record[cl.field])" *ngIf="isEditIndex != i" [ngStyle]="{width: cl.width}" ngClass="shorten">{{record[cl.field]}}</p>
-                <input class="form-control" *ngIf="isEditIndex == i && onChecktype(record,cl.field) == 'string'" id="{{cl.field +'_'+ i}}" value={{record[cl.field]}} [placeholder]="cl.field"
-                  [ngStyle]="{width: cl.width}" ngClass="shorten" required #text/>
-                <input type="checkbox" *ngIf="isEditIndex == i && onChecktype(record,cl.field) == 'boolean'" id="{{cl.field +'_'+ i}}"
-                  value={{record[cl.field]}}  [checked]="record[cl.field]" />
+                <p (click)="onclick(record[cl.field])" *ngIf="isEditIndex != i" [ngStyle]="{width: cl.width}" ngClass="shorten">
+                  {{record[cl.field]}}
+                  </p>
+                <input class="form-control" *ngIf="isEditIndex == i && onChecktype(record,cl.field) == 'string'" id="{{cl.field +'_'+ i}}"
+                  value={{record[cl.field]}} [placeholder]="cl.field" [ngStyle]="{width: cl.width}" ngClass="shorten" required
+                  #text/>
+                <input type="checkbox" *ngIf="isEditIndex == i && onChecktype(record,cl.field) == 'boolean'" id="{{cl.field +'_'+ i}}" value={{record[cl.field]}}
+                  [checked]="record[cl.field]" />
                 <input type="number" class="form-control" *ngIf="isEditIndex == i && onChecktype(record,cl.field) == 'number'" id="{{cl.field +'_'+ i}}"
                   value={{record[cl.field]}} [placeholder]="cl.field" required/>
               </td>
@@ -40,7 +45,24 @@
       <div *ngIf="isAlterVisible" [ngClass]="(isValidStatus)?'alert alert-success':'alert alert-warning'" style="margin: 20px;"
         class="col-xs-7">
         {{alterMessage}}
-      </div>      
+      </div>
+    </div>
+    <div *ngIf="showDialog">
+      <mDialog [(visible)]="showDialog">
+        <form (ngSubmit)="onSaveData(frm)" [formGroup]="editFormGroup" #frm="ngForm">
+          <div class="row" style="margin-top: 10px;">
+            <div class="col-xs-8" *ngFor="let cl of option">
+              <label>{{cl.field}}</label>                
+              <input type="text" class="form-control" style="margin: 5px"
+               [placeholder]="cl.field" id="cl.field" [formControlName]="cl.field">              
+            </div>
+          </div>
+          <hr>
+          <button class="btn btn-success" type="submit" [disabled]="!frm.valid">Save</button>
+          <button (click)="showDialog = !showDialog" class="btn btn-danger">Close</button>
+        </form>
+        <br>
+      </mDialog>
     </div>
   </div>
 </div>

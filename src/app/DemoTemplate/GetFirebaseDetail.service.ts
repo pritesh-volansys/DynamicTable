@@ -6,10 +6,10 @@ import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 export class GetFirebaseDetailService {
-  constructor() { }
-  //Chandani Move this to above constructor
   token: string;
   changeToken = new Subject<string>();
+
+  constructor() { }  
 
   signupUser(email: string, password: string) {
     firebase.auth().createUserWithEmailAndPassword(email, password)

@@ -1,20 +1,12 @@
 import { Component, OnInit, Input, Output, ViewChild, ElementRef, EventEmitter } from '@angular/core';
-import { Subscription } from "rxjs/Subscription";
+import { FormGroup, FormControl, FormArray, Validators, NgForm } from '@angular/forms';
+import { Subscription } from 'rxjs/Subscription';
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 
+
 import { ColumnConfig } from "../ColumnConfig";
 import { HttpCallService } from "../HttpCall.service";
-
-//Move this to separate class and import to use it
-enum dataType {
-  "date" = 0,
-  "string" = 1,
-  "number" = 2,
-  "boolean" = 3,
-  "float" = 4,
-  "double" = 5
-}
 
 @Component({
   selector: 'app-DataTable',
@@ -26,25 +18,28 @@ enum dataType {
 export class DynDataTableComponent implements OnInit {
   @Input() dataSource: any;
   @Input() option: any[];
-  @Input() insideEdit : boolean;
-  @Input() sort: any;
+  @Input() inLineEdit: boolean;
   @ViewChild('clmRef') clmRef: ElementRef;
   @Output() onChange = new EventEmitter<{ editItem: any }>();
+  @Output() onSaveDeatil = new EventEmitter<{ Item: any }>();
 
 
   filtterby = "";
   fieldName = "";
-  dataTypeOptions: dataType;
   isEditIndex;
   isValidStatus = false;
   alterMessage;
   isAlterVisible = false;
+  showDialog = false;
+  editFormGroup: FormGroup = new FormGroup({});
+  editFormControl: FormControl;
 
+
+  constructor(private httpCallService: HttpCallService) { }
 
   ngOnChanges(changes: any) {
-    //Chandani in javascript comparision of values should be !== or === i.e this.dataSource !== undefined
-    // Same mistake everywhere
-    if (this.dataSource != null && this.dataSource != undefined && this.dataSource.Url != null && this.dataSource.Url != undefined) {
+    if (this.dataSource !== null && this.dataSource !== undefined && this.dataSource.Url !== null && this.dataSource.Url !== undefined) {
+
       this.httpCallService.getLinkData(this.dataSource)
         .subscribe(
         (servers: any[]) => this.dataSource = servers,
@@ -57,11 +52,7 @@ export class DynDataTableComponent implements OnInit {
     }
   }
 
-  constructor(private httpCallService: HttpCallService) { }
-
   ngOnInit() {
-//Chandani this is not allowed unused expression, expected an assignment or function call
-    this.option;
     this.httpResponce();
     this.isAlterVisible = false;
   }
@@ -93,9 +84,14 @@ export class DynDataTableComponent implements OnInit {
     this.fieldName = field;
   }
 
-  onChangeSortingType(columnName): void {
-    //this.sort is not reassigned why we store it in local var can't we use this.sort.column?
-    var sort = this.sort;
+  defaultsort: any = {
+    column: 'ProductName',
+    descending: false
+  };
+
+ onChangeSortingType(columnName): void {
+    var sort = this.defaultsort;
+
     if (sort.column == columnName) {
       sort.descending = !sort.descending;
     } else {
@@ -104,50 +100,69 @@ export class DynDataTableComponent implements OnInit {
     }
   }
 
-  convertSortingType(): string {
-    return this.sort.descending ? '-' + this.sort.column : this.sort.column;
+  selectedClass(columnName): string {    
+    if (columnName == this.defaultsort.column) {    
+      return 'sort-' + this.defaultsort.descending;
+    }
+    else {
+      'sort-' + false;
+    }
+
   }
 
-  onChecktype(record, field) {
-    //Chandani can't we use directly return typeof record[field];
+  convertSortingType(): string {
+    return this.defaultsort.descending ? '-' + this.defaultsort.column : this.defaultsort.column;
+  }
+
+  onChecktype(record, field) {    
     var type = typeof record[field];
     return type;
   }
 
 
   onEdit(index, record) {
-    //Chandani use spaces while using special chars update everywhere
-    /*
-    if (this.insideEdit) {
-      //If edit mode inside the table on edit click
-      this.isEditIndex = index;
-    }
-    else {
-      //Or Edit mode Share on edit click
-      this.onChange.emit({
-        editItem: record
-      });
-    }
-    */
+    this.initForm(index, record);
+    // if(this.inLineEdit){
+    //   //If edit mode inside the table on edit click
+    //   this.isEditIndex = index;
+    // }
+    // else{
+    //   //Or Edit mode Share on click
+    //   this.onChange.emit({
+    //     editItem: record
+    //   });     
+    // }    
+  }
 
-    if(this.insideEdit){
-      //If edit mode inside the table on edit click
-      this.isEditIndex = index;
+  private initForm(index, record) {
+    this.editFormGroup = new FormGroup({});
+    for (let item of this.option) {
+      this.editFormControl = new FormControl(record[item.field], Validators.required);
+      this.editFormGroup.addControl(item.field, this.editFormControl);
     }
-    else{
-      //Or Edit mode Share on edit click
-      this.onChange.emit({
-        editItem: record
-      });
+    this.showDialog = !this.showDialog;
+  }
+
+  onSaveData(form: NgForm) {
+    var SaveItem = [];
+    for (let item of this.option) {
+      SaveItem[item.field] = form.value[item.field];
     }
+    this.onSaveDeatil.emit({
+      Item: SaveItem
+    });
+    SaveItem = [];
+    this.editFormGroup = new FormGroup({});
+    form.reset();
+    this.showDialog = !this.showDialog
   }
 
   onSave(rowIndex) {
     for (var i = 0; i < this.option.length; i++) {
-      //Chandani Line should not exceed 140 chars
       var textID = this.option[i].field + '_' + rowIndex;
       if ((<HTMLInputElement>document.getElementById(textID)).value != null
-        && (<HTMLInputElement>document.getElementById(textID)).value.length > 0 && (<HTMLInputElement>document.getElementById(textID)).value != undefined) {
+        && (<HTMLInputElement>document.getElementById(textID)).value.length > 0 &&
+         (<HTMLInputElement>document.getElementById(textID)).value != undefined) {
       }
       else {
         this.onHideMessage();
@@ -162,10 +177,12 @@ export class DynDataTableComponent implements OnInit {
       if ((<HTMLInputElement>document.getElementById(textID)).value != null) {
         if ((<HTMLInputElement>document.getElementById(textID)).type == "checkbox") {
           console.log((<HTMLInputElement>document.getElementById(textID)).checked);
-          this.dataSource[rowIndex][this.option[i].field] = (<HTMLInputElement>document.getElementById(textID)).checked;
+          this.dataSource[rowIndex][this.option[i].field] = 
+          (<HTMLInputElement>document.getElementById(textID)).checked;
         }
-        else //Chandani: Use braces
-          this.dataSource[rowIndex][this.option[i].field] = (<HTMLInputElement>document.getElementById(textID)).value;
+        else
+          this.dataSource[rowIndex][this.option[i].field] =
+           (<HTMLInputElement>document.getElementById(textID)).value;
       }
     }
 
@@ -202,31 +219,6 @@ export class DynDataTableComponent implements OnInit {
       .subscribe((x) => {
         this.isAlterVisible = false;
       })
-  }
-
-// Chandani Move this to top portion before constructor
-  currentType: dataType;
-
-  OnSelectType(type) {
-    //Chandani This is forbidden
-    debugger;
-    switch (type) {
-      case dataType.string.toString():
-        this.dataTypeOptions = dataType.string;
-        break;
-      case dataType.number.toString():
-        this.dataTypeOptions = dataType.number;
-        break;
-      case dataType.boolean.toString():
-        this.dataTypeOptions = dataType.boolean;
-        break;
-      case dataType.date.toString():
-        this.dataTypeOptions = dataType.date;
-        break;
-      default:
-        this.dataTypeOptions = dataType.string;
-        break;
-    }
   }
 
 }

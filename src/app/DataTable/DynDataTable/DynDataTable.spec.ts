@@ -1,10 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { DynDataTableComponent } from "../DynDataTable/DynDataTable";
-
-
-
-
+import { DynDataTableComponent } from "../DynDataTable/DynDataTable.component";
 
 describe('DynDTComponent', () => {
   let component: DynDataTableComponent;

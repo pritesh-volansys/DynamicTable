@@ -19,7 +19,7 @@ This column setting use for default setting of DataTable. Column setting can han
 
 ## UI Configuration
 
-User need to share data source or datalink with apropriate column config in option attribute for Custom DataTable. Please check below shared attributs list with proper assign value.
+The user needs to share data source or datalink with appropriate column config in option attribute for Custom DataTable. Please check below shared attribute list with proper assign value.
 
 ```
 
@@ -28,7 +28,7 @@ User need to share data source or datalink with apropriate column config in opti
 ```
 
 
-### Type of share the datasource to DataTable
+### Type of share the data source to DataTable
 
 * User can share data source using tow type.
     * JSON data
@@ -47,7 +47,7 @@ JSON data :
 
 ```
 
-Link data with type :
+Link data with type:
 
 ```
     this.generalData = {
@@ -58,7 +58,39 @@ Link data with type :
 
 ## UI for DataTable
 
-![ScreenShot](src/test.png)
+![ScreenShot](src/images/test.png)
+
+## Table Edit Mode
+
+### Inline Edit mode: 
+
+The user needs to double click on any row. It shows as edit mode data and with save button.
+
+![ScreenShot](src/images/InlineEdit.png)
+
+### Edit with Popup:
+
+The user needs to click on the button for getting a popup and on "[onSaveDeatil]" event changed data to share with "$event" parameter. 
+
+![ScreenShot](src/images/EditbyPopup.png)
+
+
+
+```
+
+# Event as attribute :
+
+   <app-datatable [option]="generalOption" [inLineEdit]=false (onSaveDeatil)="onSavedItem($event)" (onChange)="onChangeItem($event)" [dataSource]="generalData"></app-datatable>
+
+# Method parameter :
+
+    onSavedItem(data) {        
+    console.log(data.Item);
+    "Do something"
+    }
+
+``` 
+
 
 ## Deployment instructions
 
@@ -73,11 +105,11 @@ Link data with type :
 
 > npm install --save bootstrap
 
-# Firebase package :
+# Firebase package:
 
 > npm install --save firebase
 
-# Fontawesome package :
+# Font-Awesome package:
 
 > npm install --save font-awesome
 

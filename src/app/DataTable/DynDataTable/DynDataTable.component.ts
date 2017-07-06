@@ -1,12 +1,12 @@
-import { Component, OnInit, Input, Output, ViewChild, ElementRef, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnChanges, Input, Output, ViewChild, ElementRef, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, FormArray, Validators, NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs/Subscription';
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 
 
-import { ColumnConfig } from "../ColumnConfig";
-import { HttpCallService } from "../HttpCall.service";
+import { ColumnConfig } from '../ColumnConfig';
+import { HttpCallService } from '../HttpCall.service';
 
 @Component({
   selector: 'app-DataTable',
@@ -15,7 +15,7 @@ import { HttpCallService } from "../HttpCall.service";
 })
 
 
-export class DynDataTableComponent implements OnInit {
+export class DynDataTableComponent implements OnInit, OnChanges {
   @Input() dataSource: any;
   @Input() option: any[];
   @Input() inLineEdit: boolean;
@@ -24,8 +24,8 @@ export class DynDataTableComponent implements OnInit {
   @Output() onSaveDeatil = new EventEmitter<{ Item: any }>();
 
 
-  filtterby = "";
-  fieldName = "";
+  filtterby = '';
+  fieldName = '';
   isEditIndex;
   isValidStatus = false;
   alterMessage;
@@ -33,6 +33,10 @@ export class DynDataTableComponent implements OnInit {
   showDialog = false;
   editFormGroup: FormGroup = new FormGroup({});
   editFormControl: FormControl;
+  defaultsort: any = {
+    column: 'ProductName',
+    descending: false
+  };
 
 
   constructor(private httpCallService: HttpCallService) { }
@@ -46,8 +50,7 @@ export class DynDataTableComponent implements OnInit {
         (error) => console.log(error)
         );
       this.isAlterVisible = true;
-    }
-    else {
+    } else {
       this.isAlterVisible = false;
     }
   }
@@ -60,20 +63,18 @@ export class DynDataTableComponent implements OnInit {
   httpResponce() {
     this.httpCallService.responseMessage.subscribe(
       (httpMessage: string) => {
-        if (httpMessage == "Unauthorized") {
+        if (httpMessage === 'Unauthorized') {
           this.onHideMessage();
           this.isValidStatus = false;
-          this.alterMessage = "Invalid authorization header. The access token you're using is either expired or invalid.";
-        }
-        else if (httpMessage == "OK") {
+          this.alterMessage = 'Invalid authorization header. The access token you are using is either expired or invalid.';
+        } else if (httpMessage === 'OK') {
           this.onHideMessage();
           this.isValidStatus = true;
-          this.alterMessage = "You have successfully get the data.";
-        }
-        else {
+          this.alterMessage = 'You have successfully get the data.';
+        } else {
           this.onHideMessage();
           this.isValidStatus = false;
-          this.alterMessage = httpMessage + "!";
+          this.alterMessage = httpMessage + '!';
         }
       }
     );
@@ -84,15 +85,10 @@ export class DynDataTableComponent implements OnInit {
     this.fieldName = field;
   }
 
-  defaultsort: any = {
-    column: 'ProductName',
-    descending: false
-  };
+  onChangeSortingType(columnName): void {
+    const sort = this.defaultsort;
 
- onChangeSortingType(columnName): void {
-    var sort = this.defaultsort;
-
-    if (sort.column == columnName) {
+    if (sort.column === columnName) {
       sort.descending = !sort.descending;
     } else {
       sort.column = columnName;
@@ -100,12 +96,11 @@ export class DynDataTableComponent implements OnInit {
     }
   }
 
-  selectedClass(columnName): string {    
-    if (columnName == this.defaultsort.column) {    
+  selectedClass(columnName): string {
+    if (columnName === this.defaultsort.column) {
       return 'sort-' + this.defaultsort.descending;
-    }
-    else {
-      'sort-' + false;
+    } else {
+      return 'sort-' + false;
     }
 
   }
@@ -114,10 +109,26 @@ export class DynDataTableComponent implements OnInit {
     return this.defaultsort.descending ? '-' + this.defaultsort.column : this.defaultsort.column;
   }
 
-  onChecktype(record, field) {    
-    var type = typeof record[field];
+  onChecktype(record, field) {
+    const type = typeof record[field];
     return type;
   }
+
+  getDynDataType(val) {
+    if (val === undefined && val === null) {
+      return 'text'
+    } else {
+      const type = typeof val;
+      if (type === 'number') {
+        return 'number'
+      } else if (type === 'boolean') {
+        return 'checkbox'
+      } else {
+        return 'text'
+      }
+    }
+  }
+
 
 
   onEdit(index, record) {
@@ -130,13 +141,17 @@ export class DynDataTableComponent implements OnInit {
     //   //Or Edit mode Share on click
     //   this.onChange.emit({
     //     editItem: record
-    //   });     
-    // }    
+    //   });
+    // }
+  }
+
+  onDbClickEdit(index) {
+    this.isEditIndex = index;
   }
 
   private initForm(index, record) {
     this.editFormGroup = new FormGroup({});
-    for (let item of this.option) {
+    for (const item of this.option) {
       this.editFormControl = new FormControl(record[item.field], Validators.required);
       this.editFormGroup.addControl(item.field, this.editFormControl);
     }
@@ -144,8 +159,11 @@ export class DynDataTableComponent implements OnInit {
   }
 
   onSaveData(form: NgForm) {
-    var SaveItem = [];
-    for (let item of this.option) {
+    let SaveItem = [];
+    for (const item of this.option) {
+      if (item.field === 'Discontinued') {
+        console.log(form.value[item.field]);
+      }
       SaveItem[item.field] = form.value[item.field];
     }
     this.onSaveDeatil.emit({
@@ -158,56 +176,55 @@ export class DynDataTableComponent implements OnInit {
   }
 
   onSave(rowIndex) {
-    for (var i = 0; i < this.option.length; i++) {
-      var textID = this.option[i].field + '_' + rowIndex;
+    for (let i = 0; i < this.option.length; i++) {
+      const textID = this.option[i].field + '_' + rowIndex;
       if ((<HTMLInputElement>document.getElementById(textID)).value != null
         && (<HTMLInputElement>document.getElementById(textID)).value.length > 0 &&
-         (<HTMLInputElement>document.getElementById(textID)).value != undefined) {
-      }
-      else {
+        (<HTMLInputElement>document.getElementById(textID)).value !== undefined) {
+      } else {
         this.onHideMessage();
         this.isValidStatus = false;
-        this.alterMessage = "Please fill the require field."
+        this.alterMessage = 'Please fill the require field.'
         return;
       }
     }
 
-    for (var i = 0; i < this.option.length; i++) {
-      var textID = this.option[i].field + '_' + rowIndex;
+    for (let i = 0; i < this.option.length; i++) {
+      const textID = this.option[i].field + '_' + rowIndex;
       if ((<HTMLInputElement>document.getElementById(textID)).value != null) {
-        if ((<HTMLInputElement>document.getElementById(textID)).type == "checkbox") {
+        if ((<HTMLInputElement>document.getElementById(textID)).type === 'checkbox') {
           console.log((<HTMLInputElement>document.getElementById(textID)).checked);
-          this.dataSource[rowIndex][this.option[i].field] = 
-          (<HTMLInputElement>document.getElementById(textID)).checked;
-        }
-        else
           this.dataSource[rowIndex][this.option[i].field] =
-           (<HTMLInputElement>document.getElementById(textID)).value;
+            (<HTMLInputElement>document.getElementById(textID)).checked;
+        } else {
+          this.dataSource[rowIndex][this.option[i].field] =
+            (<HTMLInputElement>document.getElementById(textID)).value;
+        }
       }
     }
 
     this.onHideMessage();
     this.isValidStatus = true;
-    this.alterMessage = "Your details have been saved successfully."
+    this.alterMessage = 'Your details have been saved successfully.'
     this.isEditIndex = null;
     this.OnStoreData();
   }
 
   onDelete(rowIndex) {
-    var isConfirmed = confirm("Are you sure to delete this record ?");
+    const isConfirmed = confirm('Are you sure to delete this record ?');
     if (isConfirmed) {
       this.dataSource.splice(rowIndex, 1);
     } else {
       return false;
     }
-    //After Delete store data.
-    //this.OnStoreData();
+    // After Delete store data.
+    // this.OnStoreData();
   }
 
   OnStoreData() {
     this.httpCallService.StoreData(this.dataSource).subscribe(
       (response: Response) => {
-        console.log("StoreData :::::" + response);
+        console.log('StoreData :::::' + response);
       }
     );
   }
@@ -220,5 +237,4 @@ export class DynDataTableComponent implements OnInit {
         this.isAlterVisible = false;
       })
   }
-
 }

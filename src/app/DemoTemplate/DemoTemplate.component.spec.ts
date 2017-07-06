@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { DemoTemplateComponent } from "./DemoTemplate.component";
+import { DemoTemplateComponent } from './DemoTemplate.component';
 
 
 describe('StudentDetailComponent', () => {

@@ -13,7 +13,7 @@ import { GetFirebaseDetailService } from './DemoTemplate/GetFirebaseDetail.servi
 @NgModule({
   declarations: [
     AppComponent,
-    DemoTemplateComponent, 
+    DemoTemplateComponent
   ],
   imports: [
     BrowserModule,
@@ -21,7 +21,7 @@ import { GetFirebaseDetailService } from './DemoTemplate/GetFirebaseDetail.servi
     FormsModule,
     DataTableModule
   ],
-  providers:[GetFirebaseDetailService],
+  providers: [GetFirebaseDetailService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

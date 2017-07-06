@@ -4,12 +4,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 
-import { HttpCallService } from "./HttpCall.service";
-import { DynDataTableComponent } from "./DynDataTable/DynDataTable.component";
-import { FillterColumns } from "./FillterColumns.pipe";
-import { OrderbyColumns } from "./OrderbyColumns.pipe";
-import { ShortenColumnVal } from "./ShortenColumnVal.pipe";
-import { DailogComponent } from "./dailog/dailog.component";
+import { HttpCallService } from './HttpCall.service';
+import { DynDataTableComponent } from './DynDataTable/DynDataTable.component';
+import { FillterColumns } from './FillterColumns.pipe';
+import { OrderbyColumns } from './OrderbyColumns.pipe';
+import { ShortenColumnVal } from './ShortenColumnVal.pipe';
+import { DailogComponent } from './dailog/dailog.component';
 
 @NgModule({
     declarations: [
@@ -19,7 +19,7 @@ import { DailogComponent } from "./dailog/dailog.component";
         ShortenColumnVal,
         DailogComponent
     ],
-    imports: [                
+    imports: [
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
@@ -29,4 +29,4 @@ import { DailogComponent } from "./dailog/dailog.component";
     exports: [DynDataTableComponent]
 })
 
-export class DataTableModule { }
+export class DataTableModule {}

@@ -6,23 +6,23 @@
           <thead>
             <tr>
             <th [ngStyle]="[{width: column.width}]" [style.display]="column.hidden ? 'none' : ''" *ngFor="let column of option">
-              <input class="form-control" *ngIf="column.filterable" (input)="onChangeFiltterValue($event,column.field)" [placeholder]="column.field"
-              />
+              <input class="form-control" *ngIf="column.filterable" (input)="onChangeFiltterValue($event,column.field)" [placeholder]="column.field"/>
               <br><br>
               <p (click)="onChangeSortingType(column.field)" [class]="selectedClass(column.field)">{{column.title | uppercase}}</p>
             </th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let record of dataSource| orderBy : convertSortingType() | filter:filtterby:fieldName ; let i = index" (dblclick)=onEdit(i)>
+            <tr *ngFor="let record of dataSource| orderBy : convertSortingType() | filter:filtterby:fieldName ; let i = index" 
+            (dblclick)=onDbClickEdit(i)>
               <td *ngFor="let cl of option" [style.display]="cl.hidden ? 'none' : ''" #clmRef>
-                <p (click)="onclick(record[cl.field])" *ngIf="isEditIndex != i" [ngStyle]="{width: cl.width}" ngClass="shorten">
+                <p *ngIf="isEditIndex != i" [ngStyle]="{width: cl.width}" ngClass="shorten">
                   {{record[cl.field]}}
                   </p>
                 <input class="form-control" *ngIf="isEditIndex == i && onChecktype(record,cl.field) == 'string'" id="{{cl.field +'_'+ i}}"
                   value={{record[cl.field]}} [placeholder]="cl.field" [ngStyle]="{width: cl.width}" ngClass="shorten" required
                   #text/>
-                <input type="checkbox" *ngIf="isEditIndex == i && onChecktype(record,cl.field) == 'boolean'" id="{{cl.field +'_'+ i}}" value={{record[cl.field]}}
+                <input type="checkbox" *ngIf="isEditIndex == i && onChecktype(record,cl.field) == 'boolean'" id="{{cl.field +'_'+ i}}"  value={{record[cl.field]}}
                   [checked]="record[cl.field]" />
                 <input type="number" class="form-control" *ngIf="isEditIndex == i && onChecktype(record,cl.field) == 'number'" id="{{cl.field +'_'+ i}}"
                   value={{record[cl.field]}} [placeholder]="cl.field" required/>
@@ -50,10 +50,10 @@
     <div *ngIf="showDialog">
       <mDialog [(visible)]="showDialog">
         <form (ngSubmit)="onSaveData(frm)" [formGroup]="editFormGroup" #frm="ngForm">
-          <div class="row" style="margin-top: 10px;">
-            <div class="col-xs-8" *ngFor="let cl of option">
+          <div *ngFor="let cl of option">
+            <div [style.display]="cl.hidden ? 'none' : ''" class="form-group">
               <label>{{cl.field}}</label>                
-              <input type="text" class="form-control" style="margin: 5px"
+              <input [type]="getDynDataType(frm.value[cl.field])" class="form-control" [checked]="frm.value[cl.field]"
                [placeholder]="cl.field" id="cl.field" [formControlName]="cl.field">              
             </div>
           </div>

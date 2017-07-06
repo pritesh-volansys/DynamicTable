@@ -10,8 +10,8 @@ export class AppComponent implements OnInit {
   constructor() {
   }
   ngOnInit() {
-    const key = "AIzaSyDd795-J77Oo5pNDEXECymWHFvdxA9iM28";
-    const domain = "ethereal-honor-168405.firebaseapp.com";
+    const key = 'AIzaSyDd795-J77Oo5pNDEXECymWHFvdxA9iM28';
+    const domain = 'ethereal-honor-168405.firebaseapp.com';
     firebase.initializeApp({
       apiKey: key,
       authDomain: domain,

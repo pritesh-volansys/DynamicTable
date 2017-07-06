@@ -1,10 +1,10 @@
-import { NgForm } from "@angular/forms";
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { NgForm } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
-import { Employee } from "app/Model/Employee.model";
-import { Student } from "app/Model/Student.model";
-import { Product } from "app/Model/Product.model";
-import { GetFirebaseDetailService } from "./GetFirebaseDetail.service";
+import { Employee } from 'app/Model/Employee.model';
+import { Student } from 'app/Model/Student.model';
+import { Product } from 'app/Model/Product.model';
+import { GetFirebaseDetailService } from './GetFirebaseDetail.service';
 
 @Component({
   selector: 'app-DemoTemplate',
@@ -30,14 +30,14 @@ export class DemoTemplateComponent implements OnInit {
   }
 
   ngOnInit() {
-    const mail = "test.456@gmail.com";
-    const pass = "9429053121";
+    const mail = 'test.456@gmail.com';
+    const pass = '9429053121';
     this.getFBDetailService.signinUser(mail, pass);
     this.initDataSource();
   }
 
   onChangeDataSource() {
-    if (this.isStudent == false) {
+    if (this.isStudent === false) {
       this.generalData = this.studentDS;
       this.generalOption = this.studentColumnDS;
       this.isStudent = true;
@@ -58,9 +58,9 @@ export class DemoTemplateComponent implements OnInit {
     })
   }
 
-  onSavedItem(data){
-    console.log("Demo Teamplate data");    
-    console.log(data.Item);    
+  onSavedItem(data) {
+    console.log('Demo Teamplate data');
+    console.log(data.Item);
   }
 
   onSaveData(form: NgForm) {
@@ -72,23 +72,23 @@ export class DemoTemplateComponent implements OnInit {
 
   initDataSource() {
     this.loadDS();
-    const content = "application/json";
-    const url = "https://ethereal-honor-168405.firebaseio.com/array.json?auth=";
+    const content = 'application/json';
+    const url = 'https://ethereal-honor-168405.firebaseio.com/array.json?auth=';
     this.getFBDetailService.changeToken.subscribe(
       (key: string) => {
         this.token = key;
         this.generalData = {
           ContentType: content,
           Url: url + this.token
-          //Url: url
+          // Url: url
         };
         this.generalOption = this.SharedlinkColumnConfig;
       }
     );
   }
-  
+
   loadDS() {
-    this.empDS =  [
+    this.empDS = [
       new Employee(1, 'Jone', 'BE CSE', 2014, 'AIT'),
       new Employee(2, 'David', 'BTech IT', 2014, 'VIT'),
       new Employee(3, 'Ding', 'MTech EEE', 2014, 'AIT'),
@@ -135,6 +135,7 @@ export class DemoTemplateComponent implements OnInit {
       { field: 'UnitPrice', title: 'Unit Price', filterable: true },
       { field: 'UnitsInStock', title: 'Units In Stock', filterable: true },
       { field: 'Discontinued', title: 'Discontinued', filterable: true },
+      { field: 'ProductID', title: 'ProductID', hidden: true, filterable: false },
     ]
   }
 }

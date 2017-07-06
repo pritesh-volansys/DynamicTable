@@ -9,7 +9,7 @@ export class GetFirebaseDetailService {
   token: string;
   changeToken = new Subject<string>();
 
-  constructor() { }  
+  constructor() { }
 
   signupUser(email: string, password: string) {
     firebase.auth().createUserWithEmailAndPassword(email, password)

@@ -15,8 +15,7 @@ export class HttpCallService {
     return this.http.get(httpReqestOption.Url)
     .map(
         (response: Response) => {
-          console.log(response);
-          if(response.statusText.toUpperCase() == "OK"){
+          if (response.statusText.toUpperCase() === 'OK') {
             const data = response.json();
             this.responseMessage.next(response.statusText);
             return data;
@@ -29,7 +28,7 @@ export class HttpCallService {
         });
   }
 
-  StoreData(dataSet){
+  StoreData(dataSet) {
      return this.http.put(this.ReqestOption.Url, dataSet);
   }
 }
